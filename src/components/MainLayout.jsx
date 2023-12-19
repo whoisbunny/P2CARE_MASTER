@@ -1,11 +1,7 @@
-import  { useState } from "react";
-import  { useNavigate , Outlet, Link } from "react-router-dom";
-import {IoIosNotifications} from 'react-icons/io'
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  
-} from "@ant-design/icons";
+import { useState } from "react";
+import { useNavigate, Outlet, Link } from "react-router-dom";
+import { IoIosNotifications } from "react-icons/io";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { AiOutlineDashboard, AiOutlineUser } from "react-icons/ai";
 
 import { PiTimerBold } from "react-icons/pi";
@@ -14,15 +10,14 @@ import { Layout, Menu, Button, theme, Flex } from "antd";
 
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
-//   const user = JSON.parse(localStorage.getItem("user"));
+  //   const user = JSON.parse(localStorage.getItem("user"));
 
-//   console.log(user);
+  //   console.log(user);
 
-
-    const [collapsed, setCollapsed] = useState(false);
-    const {
-      token: { colorBgContainer },
-    } = theme.useToken();
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   const navigate = useNavigate();
   return (
@@ -53,19 +48,18 @@ const MainLayout = () => {
               },
 
               {
-                key: "patient",
+                key: "patients",
                 icon: <AiOutlineUser className="fs-4" />,
                 label: "Patients Manage",
                 children: [
                   {
-                    key: "all-petients",
+                    key: "all-patients",
 
-                    label: "All Petients",
+                    label: "All Patients",
                   },
                   {
-                    key: "add-petient",
-
-                    label: "Add New Petient",
+                    key: "patient",
+                    label: "Add New Patient",
                   },
                 ],
               },

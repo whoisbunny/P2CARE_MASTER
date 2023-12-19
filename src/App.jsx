@@ -2,9 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import MainLayout from "./components/MainLayout";
 import Dashbord from "./pages/Dashbord";
-import PetientList from "./pages/petient/PetientList";
 import DoctorList from "./pages/DoctorList";
-import AddPetient from "./pages/petient/AddPetient";
 import AddDoctor from "./pages/AddDoctor";
 import SearchDoctor from "./pages/SearchDoctor";
 import DoctorCategory from "./pages/DoctorCategory";
@@ -21,6 +19,8 @@ import Faq from "./pages/hospital/Faq";
 import HospitalBlog from "./pages/hospital/HospitalBlog";
 import HospitalReview from "./pages/hospital/HospitalReview";
 import AssignDoctor from "./pages/hospital/AssignDoctor";
+import PatientList from "./pages/patient/PatientList";
+import AddPatient from "./pages/patient/AddPatient";
 
 function App() {
   return (
@@ -32,8 +32,9 @@ function App() {
           {/* <Route path="/forgot-password" element={<Forgotpassword />} /> */}
           <Route path="/admin" element={<MainLayout />}>
             <Route index element={<Dashbord />} />
-            <Route path="all-petients" element={<PetientList />} />
-            <Route path="add-petient" element={<AddPetient />} />
+            <Route path="all-patients" element={<PatientList />} />
+            <Route path="patient" element={<AddPatient />} />
+            <Route path="patient/:id" element={<AddPatient />} />
             <Route path="add-doctor" element={<AddDoctor />} />
             <Route path="all-doctors" element={<DoctorList />} />
             <Route path="search-doctor" element={<SearchDoctor />} />
