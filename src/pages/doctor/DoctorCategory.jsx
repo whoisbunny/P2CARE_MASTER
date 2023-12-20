@@ -33,6 +33,10 @@ const columns = [
     dataIndex: "action",
   },
 ];
+
+
+
+
 const DoctorCategory = () => {
   const [open, setOpen] = useState(false);
   const [delCatId, setDelCatId] = useState("");

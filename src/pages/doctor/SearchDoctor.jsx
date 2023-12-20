@@ -3,10 +3,10 @@ import React, { useState } from "react";
 // import { AiFillDelete } from "react-icons/ai";
 // import { BiEdit } from "react-icons/bi";
 // import { Link } from "react-router-dom";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "../../components/CustomInput";
 import { useFormik } from "formik";
 import { FaSearch } from "react-icons/fa";
-import CustomModal from "../components/CustomModal";
+import CustomModal from "../../components/CustomModal";
 
 const columns = [
   {

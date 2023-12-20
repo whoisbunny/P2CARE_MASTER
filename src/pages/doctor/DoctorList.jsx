@@ -1,14 +1,23 @@
 import { Table } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import CustomModal from "../../components/CustomModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllDoctors, resetState } from "../../features/doctor/doctorSlice";
 
 const columns = [
   {
     title: "SNo",
     dataIndex: "key",
+  },
+
+
+  {
+    title: "Code",
+    dataIndex: "code",
+    sorter: (a, b) => a.name.length - b.name.length,
   },
   {
     title: "Name",
@@ -16,13 +25,23 @@ const columns = [
     sorter: (a, b) => a.name.length - b.name.length,
   },
   {
-    title: "Email",
-    dataIndex: "email",
+    title: "Image",
+    dataIndex: "image",
     sorter: (a, b) => a.name.length - b.name.length,
   },
   {
-    title: "User Name",
-    dataIndex: "username",
+    title: "Price",
+    dataIndex: "price",
+    sorter: (a, b) => a.name.length - b.name.length,
+  },
+  {
+    title: "Appointment Status ",
+    dataIndex: "appointmentStatus",
+    sorter: (a, b) => a.name.length - b.name.length,
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
     sorter: (a, b) => a.name.length - b.name.length,
   },
 
@@ -33,8 +52,19 @@ const columns = [
 ];
 
 const DoctorList = () => {
+  const allDoctors = useSelector((state) => state?.doctor?.allDoctors);
+  console.log(allDoctors);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getAllDoctors());
+    dispatch(resetState());
+  }, []);
    const [open, setOpen] = useState(false);
-   const [blogCatId, setblogCatId] = useState("");
+
+
+
+
+
    // const showModal = (e) => {
    //   setOpen(true);
    //   setblogCatId(e);
@@ -44,13 +74,31 @@ const DoctorList = () => {
      setOpen(false);
    };
 
+
    const data1 = [];
-   for (let i = 0; i < 4; i++) {
+   for (let i = 0; i < allDoctors?.length; i++) {
      data1.push({
        key: i + 1,
-       name: "raam",
-       email: "raam",
-       username: "raam",
+       code: allDoctors[i]?.doctorCode,
+       name: allDoctors[i]?.doctorName,
+       image: (
+         <>
+           <img src={allDoctors[i]?.image} alt="" />
+         </>
+       ),
+       price: allDoctors[i]?.price,
+       appointmentStatus: allDoctors[i]?.availabileforappointment ? (
+         <div className="btn btn-success">Yes</div>
+       ) : (
+         <div className="btn btn-danger">No</div>
+       ),
+       status: (
+         <>
+           <div className="btn btn-outline-primary">
+             {allDoctors[i]?.status}
+           </div>
+         </>
+       ),
        action: (
          <>
            <Link
@@ -59,10 +107,7 @@ const DoctorList = () => {
            >
              <BiEdit />
            </Link>
-           <button
-             className="ms-3 fs-3 text-danger bg-transparent border-0"
-             // onClick={() => showModal(bCatState[i]._id)}
-           >
+           <button className="ms-3 fs-3 text-danger bg-transparent border-0">
              <AiFillDelete />
            </button>
          </>

@@ -7,15 +7,15 @@ let schema = yup.object().shape({
   username: yup.string().required("Username is Required"),
   phone: yup.number().required("Phone Number is Required"),
   zipcode: yup.number().required("Zipcode is Required"),
-  city: yup.number().required("City is Required"),
-  country: yup.number().required("Country is Required"),
-  state: yup.number().required("State is Required"),
+  city: yup.string().required("City is Required"),
+  country: yup.string().required("Country is Required"),
+  state: yup.string().required("State is Required"),
   address: yup.string().required("address is Required"),
   email: yup
     .string()
     .email("Email should be valid")
     .required("Email is Required"),
-    password: yup.string().required("Password is Required"),
+  password: yup.string().required("Password is Required"),
 });
 const AddDoctor = () => {
   const formik = useFormik({
