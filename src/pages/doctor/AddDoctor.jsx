@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "../../components/CustomInput";
 import * as yup from "yup";
 
 let schema = yup.object().shape({

@@ -2,11 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import MainLayout from "./components/MainLayout";
 import Dashbord from "./pages/Dashbord";
-import DoctorList from "./pages/DoctorList";
-import AddDoctor from "./pages/AddDoctor";
-import SearchDoctor from "./pages/SearchDoctor";
-import DoctorCategory from "./pages/DoctorCategory";
-import BookDoctor from "./pages/BookDoctor";
+import DoctorList from "./pages/doctor/DoctorList";
+import AddDoctor from "./pages/doctor/AddDoctor";
+import SearchDoctor from "./pages/doctor/SearchDoctor";
+import DoctorCategory from "./pages/doctor/DoctorCategory";
+import BookDoctor from "./pages/doctor/BookDoctor";
 import ReviewDoctor from "./pages/ReviewDoctor";
 import BlogList from "./pages/BlogList";
 import BlogCategory from "./pages/BlogCategory";
@@ -21,6 +21,8 @@ import HospitalReview from "./pages/hospital/HospitalReview";
 import AssignDoctor from "./pages/hospital/AssignDoctor";
 import PatientList from "./pages/patient/PatientList";
 import AddPatient from "./pages/patient/AddPatient";
+import { Toaster } from "react-hot-toast";
+import AddDoctorCategory from "./pages/doctor/AddDoctorCategory";
 
 function App() {
   return (
@@ -38,7 +40,9 @@ function App() {
             <Route path="add-doctor" element={<AddDoctor />} />
             <Route path="all-doctors" element={<DoctorList />} />
             <Route path="search-doctor" element={<SearchDoctor />} />
-            <Route path="doctor-category" element={<DoctorCategory />} />
+            <Route path="doctor-category-list" element={<DoctorCategory />} />
+            <Route path="doctor-category" element={<AddDoctorCategory />} />
+            <Route path="doctor-category/:id" element={<AddDoctorCategory />} />
             <Route path="doctor-booking" element={<BookDoctor />} />
             <Route path="all-doctor-review" element={<ReviewDoctor />} />
 
@@ -57,6 +61,7 @@ function App() {
             {/* <Route path="blog-category-list" element={<BlogCatList />} /> */}
           </Route>
         </Routes>
+          <Toaster/>
       </BrowserRouter>
     </>
   );

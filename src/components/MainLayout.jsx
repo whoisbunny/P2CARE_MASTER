@@ -54,7 +54,6 @@ const MainLayout = () => {
                 children: [
                   {
                     key: "all-patients",
-
                     label: "All Patients",
                   },
                   {
@@ -82,7 +81,7 @@ const MainLayout = () => {
                     label: "Search Doctor",
                   },
                   {
-                    key: "doctor-category",
+                    key: "doctor-category-list",
                     label: "Doctor Category",
                   },
                   {

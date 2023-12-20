@@ -27,11 +27,12 @@ const AddPatient = () => {
   const dispatch = useDispatch()
 
   
+  
   const patientId = location.pathname.split("/")[3];
-  const patientUpdateData = useSelector((state)=>state.patient?.Patients)
+  const patientUpdateData = useSelector((state)=>state?.patient?.Patients)
   const updateData = patientUpdateData?.filter((e)=>{
     return e._id === patientId;
-  })
+  })  
 
   const formik = useFormik({
     enableReinitialize: true,

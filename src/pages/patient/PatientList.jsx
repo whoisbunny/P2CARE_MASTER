@@ -39,7 +39,7 @@ const PatientList = () => {
   const [patientId, setpatientId] = useState("");
   const patientState = useSelector((state) => state.patient?.Patients);
   const dispatch = useDispatch();
-  console.log(patientState);
+ 
 
   useEffect(() => {
 
@@ -69,7 +69,6 @@ const PatientList = () => {
         <>
           <Link
             to={`/admin/patient/${patientState[i]._id}`}
-            onClick={() => showModal(patientState[i]?._id)}
             className=" fs-3 text-danger"
           >
             <BiEdit />

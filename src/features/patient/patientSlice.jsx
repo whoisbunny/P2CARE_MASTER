@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import patientService from "./patientsService";
+import toast from "react-hot-toast";
 
 
 
@@ -103,6 +104,10 @@ export const patientSlice = createSlice({
         state.isSuccess = true;
         state.message = action.payload.message;
         state.newPatient = action.payload?.data;
+        if(state.isSuccess === true){
+
+          toast.success('Patient Added successfully')
+        }
       })
       .addCase(createAPatient.rejected, (state, action) => {
         state.isError = true;

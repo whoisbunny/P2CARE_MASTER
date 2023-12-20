@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import CustomModal from "../components/CustomModal";
+import CustomModal from "../../components/CustomModal";
 
 const columns = [
   {

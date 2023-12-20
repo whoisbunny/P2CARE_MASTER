@@ -1,12 +1,13 @@
 
 const CustomInput = (props) => {
-  const { type, label, i_id, i_class, name, val, onChng, onBlr } = props;
+  const { type, label, i_id, accept,i_class, name, val, onChng, onBlr } = props;
   return (
     <div className="form-floating mt-3 mb-3">
       <input
         type={type}
         className={`form-control ${i_class}`}
         id={i_id}
+        accept={accept}
         placeholder={label}
         name={name}
         value={val}
