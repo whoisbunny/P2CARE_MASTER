@@ -3,7 +3,7 @@ import CustomInput from "../../components/CustomInput";
 import { IoArrowBack } from "react-icons/io5";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   allServiceCategory,
   
