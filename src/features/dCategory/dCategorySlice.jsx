@@ -51,6 +51,8 @@ export const updateDoctorCategory = createAsyncThunk(
   }
 );
 
+
+
 export const resetState = createAction("Reset_all");
 
 export const doctorCategorySlice = createSlice({

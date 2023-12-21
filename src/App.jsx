@@ -23,6 +23,11 @@ import PatientList from "./pages/patient/PatientList";
 import AddPatient from "./pages/patient/AddPatient";
 import { Toaster } from "react-hot-toast";
 import AddDoctorCategory from "./pages/doctor/AddDoctorCategory";
+import ServiceList from "./pages/service/ServiceList";
+import AddService from "./pages/service/AddService";
+import SearchService from "./pages/service/SearchService";
+import ServiceCategoryList from "./pages/service/ServiceCategoryList";
+import AddServiceCategory from "./pages/service/AddServiceCategory";
 
 function App() {
   return (
@@ -51,17 +56,30 @@ function App() {
             <Route path="blog-cat/:id" element={<AddBlogCategory />} />
             <Route path="add-blog" element={<AddBlog />} />
             <Route path="add-blog/:id" element={<AddBlog />} />
+
+
+
             <Route path="testimonial" element={<Testimonial />} />
+
             <Route path="all-hospital" element={<HospitalList />} />
             <Route path="faq" element={<Faq />} />
             <Route path="blog-hospital" element={<HospitalBlog />} />
             <Route path="hospital/all-review" element={<HospitalReview />} />
             <Route path="assign-doctor" element={<AssignDoctor />} />
 
+            <Route path="service" element={<AddService />} />
+            <Route path="service/:id" element={<AddService />} />
+            <Route path="service-list" element={<ServiceList />} />
+            <Route path="search-service" element={<SearchService />} />
+            
+            <Route path="service-categiry-list" element={<ServiceCategoryList />} />
+            <Route path="service-categiry" element={<AddServiceCategory />} />
+            <Route path="service-categiry/:id" element={<AddServiceCategory />} />
+
             {/* <Route path="blog-category-list" element={<BlogCatList />} /> */}
           </Route>
         </Routes>
-          <Toaster/>
+        <Toaster />
       </BrowserRouter>
     </>
   );

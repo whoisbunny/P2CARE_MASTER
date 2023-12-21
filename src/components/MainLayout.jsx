@@ -4,15 +4,13 @@ import { IoIosNotifications } from "react-icons/io";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { AiOutlineDashboard, AiOutlineUser } from "react-icons/ai";
 
-import { PiTimerBold } from "react-icons/pi";
+import { PiGearBold, PiTimerBold } from "react-icons/pi";
 import { FaBloggerB, FaClipboardList } from "react-icons/fa";
 import { Layout, Menu, Button, theme, Flex } from "antd";
 
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
-  //   const user = JSON.parse(localStorage.getItem("user"));
-
-  //   console.log(user);
+  
 
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -122,6 +120,30 @@ const MainLayout = () => {
                   },
                 ],
               },
+              {
+                key: "services",
+                icon: <PiGearBold className="fs-4" />,
+                label: "Services",
+                children: [
+                  {
+                    key: "service",
+                    label: "Add Service",
+                  },
+                  {
+                    key: "service-list",
+                    label: "All Services",
+                  },
+                  {
+                    key: "service-categiry-list",
+                    label: "Service Categories",
+                  },
+                  {
+                    key: "search-service",
+                    label: "Search Services",
+                  },
+                ],
+              },
+
               {
                 key: "blog",
                 icon: <FaBloggerB className="fs-4" />,

@@ -102,7 +102,7 @@ const AddDoctorCategory = () => {
                 <option value="publish">Publish</option>
               </select>
               <div className="error">
-                {formik.touched.brand && formik.errors.brand}
+                {formik.touched.status && formik.errors.status}
               </div>
               <button className="btn btn-primary" type="submit">
                 Submit

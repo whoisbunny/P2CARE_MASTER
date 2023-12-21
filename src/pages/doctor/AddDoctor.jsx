@@ -1,23 +1,9 @@
 import { useFormik } from "formik";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "../..//components/CustomInput";
 import * as yup from "yup";
 
 let schema = yup.object().shape({
-<<<<<<< HEAD
-  name: yup.string().required("Name is Required"),
-  username: yup.string().required("Username is Required"),
-  phone: yup.number().required("Phone Number is Required"),
-  zipcode: yup.number().required("Zipcode is Required"),
-  city: yup.string().required("City is Required"),
-  country: yup.string().required("Country is Required"),
-  state: yup.string().required("State is Required"),
-  address: yup.string().required("address is Required"),
-  email: yup
-    .string()
-    .email("Email should be valid")
-    .required("Email is Required"),
-  password: yup.string().required("Password is Required"),
-=======
+
   doctorName: "",
   doctorCode: "",
   departmentName: "",
@@ -54,8 +40,10 @@ let schema = yup.object().shape({
   availabileforappointment: "",
   hospital: "",
   status: "",
->>>>>>> 7dfe48dce957e5298298c5276e1ffe3334e457df
 });
+
+
+
 const AddDoctor = () => {
   const formik = useFormik({
     initialValues: {
