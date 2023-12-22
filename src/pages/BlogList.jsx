@@ -99,7 +99,7 @@ const BlogList = () => {
           className="btn btn-primary mb-3"
           style={{ marginLeft: "53.5rem" }}
         >
-          Add Hospital
+          Add New Blog
         </button>
       </div>
       <div className="dropdown my-3">
