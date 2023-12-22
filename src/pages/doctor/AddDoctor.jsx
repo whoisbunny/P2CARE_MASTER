@@ -374,7 +374,7 @@ const AddDoctor = () => {
                       </div>
                     </div>
 
-                    <div className="col-6">
+                    <div className="col-12">
                       <CustomInput
                         type="text"
                         label="Description "
@@ -389,7 +389,7 @@ const AddDoctor = () => {
                       </div>
                     </div>
 
-                    <div className="col-6">
+                    <div className="col-12">
                       <CustomInput
                         type="text"
                         label="Short Description "
