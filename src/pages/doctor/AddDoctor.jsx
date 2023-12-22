@@ -1,35 +1,32 @@
-import { useFormik } from "formik";
+import { Field, FieldArray, Formik } from "formik";
 import CustomInput from "../..//components/CustomInput";
 import * as yup from "yup";
+import Select from "react-dropdown-select";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { allDoctorCategory } from "../../features/dCategory/dCategorySlice";
+
+import { getAllHospitals } from "../../features/hospital/hospitalSlice";
 
 let schema = yup.object().shape({
-
   doctorName: "",
   doctorCode: "",
   departmentName: "",
   departmentCode: "",
-  // designation[0]: "",
-  // designation[1]: "",
-  // designation[0]: "",
-  // designation[1]: "",
-  // experties[0]: "",
-  // experties[1]: "",
+  designation: [],
+
+  experties: [],
   slug: "",
   location: "",
   description: "",
   shortDescription: "",
-  experienceInfo: "",
-  // awardAndAchivementsInfo[0]: "",
-  // awardAndAchivementsInfo[1]: "",
+  experienceInfo: [],
+  awardAndAchivementsInfo: [],
   specialities: "",
-  // talkPublicationInfo[0]: "",
-  // talkPublicationInfo[1]: "",
-  // languageInfo[0]: "",
-  // languageInfo[1]: "",
-  // educationInfo[0]: "",
-  // educationInfo[1]: "",
-  // fellowShipInfo[0]: "",
-  // fellowShipInfo[1]: "",
+  talkPublicationInfo: [],
+  languageInfo: [],
+  educationInfo: [],
+  fellowShipInfo: [],
   metaTitle: "",
   ogMetaTitle: "",
   metaDescription: "",
@@ -37,557 +34,900 @@ let schema = yup.object().shape({
   metaTags: "",
   price: "",
   image: "",
-  availabileforappointment: "",
+  availabileforappointment: false,
   hospital: "",
   status: "",
 });
 
-
-
 const AddDoctor = () => {
-  const formik = useFormik({
-    initialValues: {
-      doctorName: "",
-      doctorCode: "",
-      departmentName: "",
-      departmentCode: "",
-      // designation[0]: "",
-      // designation[1]: "",
-      // designation[0]: "",
-      // designation[1]: "",
-      // experties[0]: "",
-      // experties[1]: "",
-      slug: "",
-      location: "",
-      description: "",
-      shortDescription: "",
-      experienceInfo: "",
-      // awardAndAchivementsInfo[0]: "",
-      // awardAndAchivementsInfo[1]: "",
-      specialities: "",
-      // talkPublicationInfo[0]: "",
-      // talkPublicationInfo[1]: "",
-      // languageInfo[0]: "",
-      // languageInfo[1]: "",
-      // educationInfo[0]: "",
-      // educationInfo[1]: "",
-      // fellowShipInfo[0]: "",
-      // fellowShipInfo[1]: "",
-      metaTitle: "",
-      ogMetaTitle: "",
-      metaDescription: "",
-      ogMetaDescription: "",
-      metaTags: "",
-      price: "",
-      image: "",
-      availabileforappointment: "",
-      hospital: "",
-      status: "",
-    },
-    validationSchema: schema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const DoctorCategory = useSelector((state) => state.dCategory?.dCategories);
+  const AllHospitals = useSelector((state) => state.hospital?.AllHospitals);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(allDoctorCategory());
+    dispatch(getAllHospitals());
+
+  }, []);
+
+
+  
+  
+  
   return (
     <>
-      <div>
-        <h3 className="mb-4 title">Add Doctor</h3>
-        <div>
-          <form onSubmit={formik.handleSubmit} className="mb-4 ">
-            <div className="row">
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor Name "
-                  name="doctorName"
-                  onChng={formik.handleChange("doctorName")}
-                  onBlr={formik.handleBlur("doctorName")}
-                  val={formik.values.doctorName}
-                />
-                <div className="error">
-                  {formik.touched.doctorName && formik.errors.doctorName}
-                </div>
-              </div>
+      <Formik
+        initialValues={{
+          doctorName: "",
+          doctorCode: "",
+          departmentName: "",
+          departmentCode: "",
+          designation: [],
+          experties: [], // doctor category mathi data lavine multiple select option lagavu
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor Code "
-                  name="doctorCode"
-                  onChng={formik.handleChange("doctorCode")}
-                  onBlr={formik.handleBlur("doctorCode")}
-                  val={formik.values.doctorCode}
-                />
-                <div className="error">
-                  {formik.touched.doctorCode && formik.errors.doctorCode}
-                </div>
-              </div>
+          slug: "",
+          location: "",
+          description: "",
+          shortDescription: "",
+          experienceInfo: [],
+          specialities: "",
+          awardAndAchivementsInfo: [],
+          talkPublicationInfo: [],
+          languageInfo: [],
+          educationInfo: [],
+          fellowShipInfo: [],
+          metaTitle: "",
+          ogMetaTitle: "",
+          metaDescription: "",
+          ogMetaDescription: "",
+          metaTags: "",
+          price: "",
+          image: "",
+          availabileforappointment: false,
+          hospital: "",
+          status: "",
+        }}
+        onSubmit={(values) => {
+          const {
+            doctorName,
+            doctorCode,
+            departmentName,
+            departmentCode,
+            designation,
+            experties,
+            experienceInfo,
+            specialities,
+            slug,
+            location,
+            description,
+            shortDescription,
+            awardAndAchivementsInfo,
+            talkPublicationInfo,
+            languageInfo,
+            educationInfo,
+            fellowShipInfo,
+            image,
+            availabileforappointment,
+            hospital,
+          } = values;
+          console.log(values);
+          const experties1 = [];
+          const hospital1 = [];
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor Dept. Name "
-                  name="departmentName"
-                  onChng={formik.handleChange("departmentName")}
-                  onBlr={formik.handleBlur("departmentName")}
-                  val={formik.values.departmentName}
-                />
-                <div className="error">
-                  {formik.touched.departmentName &&
-                    formik.errors.departmentName}
-                </div>
-              </div>
+          experties.forEach((element) => experties1.push(element?.name));
+          hospital.forEach((element) => hospital1.push(element?.hospitalname));
+          const formData = new FormData();
+          formData.append("doctorName", doctorName);
+          formData.append("doctorCode", doctorCode);
+          formData.append("departmentName", departmentName);
+          formData.append("departmentCode", departmentCode);
+          formData.append("designation", designation);
+          formData.append("experties", experties1);
+          formData.append("specialities", specialities);
+          formData.append("slug", slug);
+          formData.append("location", location);
+          formData.append("experienceInfo", experienceInfo);
+          formData.append("description", description);
+          formData.append("shortDescription", shortDescription);
+          formData.append("awardAndAchivementsInfo", awardAndAchivementsInfo);
+          formData.append("talkPublicationInfo", talkPublicationInfo);
+          formData.append("languageInfo", languageInfo);
+          formData.append("educationInfo", educationInfo);
+          formData.append("fellowShipInfo", fellowShipInfo);
+          formData.append("image", image);
+          formData.append("availabileforappointment", availabileforappointment);
+          formData.append("hospital", hospital1);
+        }}
+      >
+        {(formik) => (
+          <>
+            <div>
+              <h3 className="mb-4 title">Add Doctor</h3>
+              <div>
+                <form onSubmit={formik.handleSubmit} className="mb-4 ">
+                  <div className="row">
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Doctor Name "
+                        name="doctorName"
+                        onChng={formik.handleChange("doctorName")}
+                        onBlr={formik.handleBlur("doctorName")}
+                        val={formik.values.doctorName}
+                      />
+                      <div className="error">
+                        {formik.touched.doctorName && formik.errors.doctorName}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor Dept. Code "
-                  name="departmentCode"
-                  onChng={formik.handleChange("departmentCode")}
-                  onBlr={formik.handleBlur("departmentCode")}
-                  val={formik.values.departmentCode}
-                />
-                <div className="error">
-                  {formik.touched.departmentCode &&
-                    formik.errors.departmentCode}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="number"
+                        label="Doctor Code "
+                        name="doctorCode"
+                        onChng={formik.handleChange("doctorCode")}
+                        onBlr={formik.handleBlur("doctorCode")}
+                        val={formik.values.doctorCode}
+                      />
+                      <div className="error">
+                        {formik.touched.doctorCode && formik.errors.doctorCode}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor designation"
-                  // name="designation[0]"
-                  // onChng={formik.handleChange("designation[0]")}
-                  // onBlr={formik.handleBlur("designation[0]")}
-                  // val={formik.values.designation[0]}
-                />
-                <div className="error">
-                  {/* {formik.touched.designation[0] && formik.errors.designation[0]} */}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Doctor Dept. Name "
+                        name="departmentName"
+                        onChng={formik.handleChange("departmentName")}
+                        onBlr={formik.handleBlur("departmentName")}
+                        val={formik.values.departmentName}
+                      />
+                      <div className="error">
+                        {formik.touched.departmentName &&
+                          formik.errors.departmentName}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor designation1 "
-                  // name="designation[1]"
-                  // onChng={formik.handleChange("designation[1]")}
-                  // onBlr={formik.handleBlur("designation[1]")}
-                  // val={formik.values.designation[1]}
-                />
-                <div className="error">
-                  {/* {formik.touched.designation[1] && formik.errors.designation[1]} */}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Doctor Dept. Code "
+                        name="departmentCode"
+                        onChng={formik.handleChange("departmentCode")}
+                        onBlr={formik.handleBlur("departmentCode")}
+                        val={formik.values.departmentCode}
+                      />
+                      <div className="error">
+                        {formik.touched.departmentCode &&
+                          formik.errors.departmentCode}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor experties "
-                  // name="experties[0]"
-                  // onChng={formik.handleChange("experties[0]")}
-                  // onBlr={formik.handleBlur("experties[0]")}
-                  // val={formik.values.experties[0]}
-                />
-                <div className="error">
-                  {/* {formik.touched.experties[0] && formik.errors.experties[0]} */}
-                </div>
-              </div>
+                    <div className="col-12 ">
+                      <div className="my-3">Add designation</div>
+                      <FieldArray
+                        name="designation"
+                        render={(arrayHelpers) => {
+                          return (
+                            <>
+                              <div className="row">
+                                {formik.values.designation?.map((e, i) => {
+                                  return (
+                                    <>
+                                      <div key={i}>
+                                        {i > 0 && (
+                                          <div className="float-end" key={i}>
+                                            <button
+                                              className="btn btn-danger"
+                                              onClick={() =>
+                                                arrayHelpers.remove(i)
+                                              }
+                                            >
+                                              X
+                                            </button>
+                                          </div>
+                                        )}
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor experties1 "
-                  // name="experties[1]"
-                  // onChng={formik.handleChange("experties[1]")}
-                  // onBlr={formik.handleBlur("experties[1]")}
-                  // val={formik.values.experties[1]}
-                />
-                <div className="error">
-                  {/* {formik.touched.experties[1] && formik.errors.experties[1]} */}
-                </div>
-              </div>
+                                        <div className="form-group  ">
+                                          <Field
+                                            type="text"
+                                            placeholder={`designation-${i + 1}`}
+                                            className="form-control  mb-2"
+                                            style={{ width: "95%" }}
+                                            name={`designation.${i}`}
+                                          />
+                                        </div>
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                              <div className="form-group  float-end">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() =>
+                                    arrayHelpers.insert(
+                                      formik.values.designation.length + 1,
+                                      []
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </>
+                          );
+                        }}
+                      />
+                      <div className="error">
+                        {formik.touched.designation &&
+                          formik.errors.designation}
+                      </div>
+                    </div>
+                    <div className="col-12 ">
+                      <div className="my-3">Add experienceInfo</div>
+                      <FieldArray
+                        name="experienceInfo"
+                        render={(arrayHelpers) => {
+                          return (
+                            <>
+                              <div className="row">
+                                {formik.values.experienceInfo?.map((e, i) => {
+                                  return (
+                                    <>
+                                      <div key={i}>
+                                        {i > 0 && (
+                                          <div className="float-end" key={i}>
+                                            <button
+                                              className="btn btn-danger"
+                                              onClick={() =>
+                                                arrayHelpers.remove(i)
+                                              }
+                                            >
+                                              X
+                                            </button>
+                                          </div>
+                                        )}
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor slug "
-                  name="slug"
-                  onChng={formik.handleChange("slug")}
-                  onBlr={formik.handleBlur("slug")}
-                  val={formik.values.slug}
-                />
-                <div className="error">
-                  {formik.touched.slug && formik.errors.slug}
-                </div>
-              </div>
+                                        <div className="form-group  ">
+                                          <Field
+                                            type="text"
+                                            placeholder={`experienceInfo-${
+                                              i + 1
+                                            }`}
+                                            className="form-control  mb-2"
+                                            style={{ width: "95%" }}
+                                            name={`experienceInfo.${i}`}
+                                          />
+                                        </div>
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                              <div className="form-group  float-end">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() =>
+                                    arrayHelpers.insert(
+                                      formik.values.experienceInfo.length + 1,
+                                      []
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </>
+                          );
+                        }}
+                      />
+                      <div className="error">
+                        {formik.touched.experienceInfo &&
+                          formik.errors.experienceInfo}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor location "
-                  name="location"
-                  onChng={formik.handleChange("location")}
-                  onBlr={formik.handleBlur("location")}
-                  val={formik.values.location}
-                />
-                <div className="error">
-                  {formik.touched.location && formik.errors.location}
-                </div>
-              </div>
+                    <div className="col-6">
+                      {/* <div className="my-3">Select Experties</div> */}
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Description "
-                  name="description"
-                  onChng={formik.handleChange("description")}
-                  onBlr={formik.handleBlur("description")}
-                  val={formik.values.description}
-                />
-                <div className="error">
-                  {formik.touched.description && formik.errors.description}
-                </div>
-              </div>
+                      <Select
+                        name="experties"
+                        labelField="name"
+                        placeholder="Select Experties ..."
+                        valueField="_id"
+                        onChange={(e) => formik.setFieldValue("experties", e)}
+                        className="form-control rounded p-3 mb-3"
+                        multi
+                        options={DoctorCategory}
+                      />
+                      <div className="error">
+                        {formik.touched.experties && formik.errors.experties}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Short Description "
-                  name="shortDescription"
-                  onChng={formik.handleChange("shortDescription")}
-                  onBlr={formik.handleBlur("shortDescription")}
-                  val={formik.values.shortDescription}
-                />
-                <div className="error">
-                  {formik.touched.shortDescription &&
-                    formik.errors.shortDescription}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Doctor slug "
+                        name="slug"
+                        onChng={formik.handleChange("slug")}
+                        onBlr={formik.handleBlur("slug")}
+                        val={formik.values.slug}
+                      />
+                      <div className="error">
+                        {formik.touched.slug && formik.errors.slug}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Experience Info "
-                  name="experienceInfo"
-                  onChng={formik.handleChange("experienceInfo")}
-                  onBlr={formik.handleBlur("experienceInfo")}
-                  val={formik.values.experienceInfo}
-                />
-                <div className="error">
-                  {formik.touched.experienceInfo &&
-                    formik.errors.experienceInfo}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Doctor location "
+                        name="location"
+                        onChng={formik.handleChange("location")}
+                        onBlr={formik.handleBlur("location")}
+                        val={formik.values.location}
+                      />
+                      <div className="error">
+                        {formik.touched.location && formik.errors.location}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor specialities "
-                  name="specialities"
-                  onChng={formik.handleChange("specialities")}
-                  onBlr={formik.handleBlur("specialities")}
-                  val={formik.values.specialities}
-                />
-                <div className="error">
-                  {formik.touched.specialities && formik.errors.specialities}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Description "
+                        name="description"
+                        onChng={formik.handleChange("description")}
+                        onBlr={formik.handleBlur("description")}
+                        val={formik.values.description}
+                      />
+                      <div className="error">
+                        {formik.touched.description &&
+                          formik.errors.description}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor award And Achivements Info "
-                  // name="awardAndAchivementsInfo[0]"
-                  // onChng={formik.handleChange("awardAndAchivementsInfo[0]")}
-                  // onBlr={formik.handleBlur("awardAndAchivementsInfo[0]")}
-                  // val={formik.values.awardAndAchivementsInfo[0]}
-                />
-                <div className="error">
-                  {/* {formik.touched.awardAndAchivementsInfo[0] && formik.errors.awardAndAchivementsInfo[0]} */}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Short Description "
+                        name="shortDescription"
+                        onChng={formik.handleChange("shortDescription")}
+                        onBlr={formik.handleBlur("shortDescription")}
+                        val={formik.values.shortDescription}
+                      />
+                      <div className="error">
+                        {formik.touched.shortDescription &&
+                          formik.errors.shortDescription}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor award And Achivements Info-1 "
-                  // name="awardAndAchivementsInfo[1]"
-                  // onChng={formik.handleChange("awardAndAchivementsInfo[1]")}
-                  // onBlr={formik.handleBlur("awardAndAchivementsInfo[1]")}
-                  // val={formik.values.awardAndAchivementsInfo[1]}
-                />
-                <div className="error">
-                  {/* {formik.touched.awardAndAchivementsInfo[1] && formik.errors.awardAndAchivementsInfo[1]} */}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <select
+                        name="specialities"
+                        onChange={formik.handleChange("specialities")}
+                        onBlur={formik.handleBlur("specialities")}
+                        value={formik.values.specialities}
+                        className="form-control form-select py-3 mb-3"
+                      >
+                        <option value="">Select specialities</option>
+                        {DoctorCategory?.map((e, i) => {
+                          return (
+                            <>
+                              <option key={i} value={e?.name}>
+                                {e?.name}
+                              </option>
+                            </>
+                          );
+                        })}
+                      </select>
+                      <div className="error">
+                        {formik.touched.specialities &&
+                          formik.errors.specialities}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor talk Publication Info"
-                  // name="talkPublicationInfo[0]"
-                  // onChng={formik.handleChange("talkPublicationInfo[0]")}
-                  // onBlr={formik.handleBlur("talkPublicationInfo[0]")}
-                  // val={formik.values.talkPublicationInfo[0]}
-                />
-                <div className="error">
-                  {/* {formik.touched.talkPublicationInfo[0] && formik.errors.talkPublicationInfo[0]} */}
-                </div>
-              </div>
+                    <div className="col-12 ">
+                      <div className="my-3">Add Award And AchivementsInfo</div>
+                      <FieldArray
+                        name="awardAndAchivementsInfo"
+                        render={(arrayHelpers) => {
+                          return (
+                            <>
+                              <div className="row">
+                                {formik.values.awardAndAchivementsInfo?.map(
+                                  (e, i) => {
+                                    return (
+                                      <>
+                                        <div key={i}>
+                                          {i > 0 && (
+                                            <div className="float-end" key={i}>
+                                              <button
+                                                className="btn btn-danger"
+                                                onClick={() =>
+                                                  arrayHelpers.remove(i)
+                                                }
+                                              >
+                                                X
+                                              </button>
+                                            </div>
+                                          )}
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor talk Publication Info-1"
-                  // name="talkPublicationInfo[1]"
-                  // onChng={formik.handleChange("talkPublicationInfo[1]")}
-                  // onBlr={formik.handleBlur("talkPublicationInfo[1]")}
-                  // val={formik.values.talkPublicationInfo[1]}
-                />
-                <div className="error">
-                  {/* {formik.touched.talkPublicationInfo[1] && formik.errors.talkPublicationInfo[1]} */}
-                </div>
-              </div>
+                                          <div className="form-group  ">
+                                            <Field
+                                              type="text"
+                                              placeholder={`awardAndAchivementsInfo-${
+                                                i + 1
+                                              }`}
+                                              className="form-control  mb-2"
+                                              style={{ width: "95%" }}
+                                              name={`awardAndAchivementsInfo.${i}`}
+                                            />
+                                          </div>
+                                        </div>
+                                      </>
+                                    );
+                                  }
+                                )}
+                              </div>
+                              <div className="form-group  float-end">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() =>
+                                    arrayHelpers.insert(
+                                      formik.values.awardAndAchivementsInfo
+                                        .length + 1,
+                                      []
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </>
+                          );
+                        }}
+                      />
+                      <div className="error">
+                        {formik.touched.awardAndAchivementsInfo &&
+                          formik.errors.awardAndAchivementsInfo}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor language Info"
-                  // name="languageInfo[0]"
-                  // onChng={formik.handleChange("languageInfo[0]")}
-                  // onBlr={formik.handleBlur("languageInfo[0]")}
-                  // val={formik.values.languageInfo[0]}
-                />
-                <div className="error">
-                  {/* {formik.touched.languageInfo[0] && formik.errors.languageInfo[0]} */}
-                </div>
-              </div>
+                    <div className="col-12 ">
+                      <div className="my-3">Talk Publication Info</div>
+                      <FieldArray
+                        name="talkPublicationInfo"
+                        render={(arrayHelpers) => {
+                          return (
+                            <>
+                              <div className="row">
+                                {formik.values.talkPublicationInfo?.map(
+                                  (e, i) => {
+                                    return (
+                                      <>
+                                        <div key={i}>
+                                          {i > 0 && (
+                                            <div className="float-end" key={i}>
+                                              <button
+                                                className="btn btn-danger"
+                                                onClick={() =>
+                                                  arrayHelpers.remove(i)
+                                                }
+                                              >
+                                                X
+                                              </button>
+                                            </div>
+                                          )}
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor language Info-1"
-                  // name="languageInfo[1]"
-                  // onChng={formik.handleChange("languageInfo[1]")}
-                  // onBlr={formik.handleBlur("languageInfo[1]")}
-                  // val={formik.values.languageInfo[1]}
-                />
-                <div className="error">
-                  {/* {formik.touched.languageInfo[1] && formik.errors.languageInfo[1]} */}
-                </div>
-              </div>
+                                          <div className="form-group  ">
+                                            <Field
+                                              type="text"
+                                              placeholder={`Talk Publication Info-${
+                                                i + 1
+                                              }`}
+                                              className="form-control  mb-2"
+                                              style={{ width: "95%" }}
+                                              name={`talkPublicationInfo.${i}`}
+                                            />
+                                          </div>
+                                        </div>
+                                      </>
+                                    );
+                                  }
+                                )}
+                              </div>
+                              <div className="form-group  float-end">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() =>
+                                    arrayHelpers.insert(
+                                      formik.values.talkPublicationInfo.length +
+                                        1,
+                                      []
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </>
+                          );
+                        }}
+                      />
+                      <div className="error">
+                        {formik.touched.talkPublicationInfo &&
+                          formik.errors.talkPublicationInfo}
+                      </div>
+                    </div>
+                    <div className="col-12 ">
+                      <div className="my-3">Talk Language Info</div>
+                      <FieldArray
+                        name="languageInfo"
+                        render={(arrayHelpers) => {
+                          return (
+                            <>
+                              <div className="row">
+                                {formik.values.languageInfo?.map((e, i) => {
+                                  return (
+                                    <>
+                                      <div key={i}>
+                                        {i > 0 && (
+                                          <div className="float-end" key={i}>
+                                            <button
+                                              className="btn btn-danger"
+                                              onClick={() =>
+                                                arrayHelpers.remove(i)
+                                              }
+                                            >
+                                              X
+                                            </button>
+                                          </div>
+                                        )}
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor education Info "
-                  // name="educationInfo[0]"
-                  // onChng={formik.handleChange("educationInfo[0]")}
-                  // onBlr={formik.handleBlur("educationInfo[0]")}
-                  // val={formik.values.educationInfo[0]}
-                />
-                <div className="error">
-                  {/* {formik.touched.educationInfo[0] && formik.errors.educationInfo[0]} */}
-                </div>
-              </div>
+                                        <div className="form-group  ">
+                                          <Field
+                                            type="text"
+                                            placeholder={`Talk Language Info-${
+                                              i + 1
+                                            }`}
+                                            className="form-control  mb-2"
+                                            style={{ width: "95%" }}
+                                            name={`languageInfo.${i}`}
+                                          />
+                                        </div>
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                              <div className="form-group  float-end">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() =>
+                                    arrayHelpers.insert(
+                                      formik.values.languageInfo.length + 1,
+                                      []
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </>
+                          );
+                        }}
+                      />
+                      <div className="error">
+                        {formik.touched.languageInfo &&
+                          formik.errors.languageInfo}
+                      </div>
+                    </div>
+                    <div className="col-12 ">
+                      <div className="my-3"> Education Info</div>
+                      <FieldArray
+                        name="educationInfo"
+                        render={(arrayHelpers) => {
+                          return (
+                            <>
+                              <div className="row">
+                                {formik.values.educationInfo?.map((e, i) => {
+                                  return (
+                                    <>
+                                      <div key={i}>
+                                        {i > 0 && (
+                                          <div className="float-end" key={i}>
+                                            <button
+                                              className="btn btn-danger"
+                                              onClick={() =>
+                                                arrayHelpers.remove(i)
+                                              }
+                                            >
+                                              X
+                                            </button>
+                                          </div>
+                                        )}
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor education Info-1 "
-                  // name="educationInfo[1]"
-                  // onChng={formik.handleChange("educationInfo[1]")}
-                  // onBlr={formik.handleBlur("educationInfo[1]")}
-                  // val={formik.values.educationInfo[1]}
-                />
-                <div className="error">
-                  {/* {formik.touched.educationInfo[1] && formik.errors.educationInfo[1]} */}
-                </div>
-              </div>
+                                        <div className="form-group  ">
+                                          <Field
+                                            type="text"
+                                            placeholder={`Education Info-${
+                                              i + 1
+                                            }`}
+                                            className="form-control  mb-2"
+                                            style={{ width: "95%" }}
+                                            name={`educationInfo.${i}`}
+                                          />
+                                        </div>
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                              <div className="form-group  float-end">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() =>
+                                    arrayHelpers.insert(
+                                      formik.values.educationInfo.length + 1,
+                                      []
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </>
+                          );
+                        }}
+                      />
+                      <div className="error">
+                        {formik.touched.educationInfo &&
+                          formik.errors.educationInfo}
+                      </div>
+                    </div>
+                    <div className="col-12 ">
+                      <div className="my-3"> FellowShip Info</div>
+                      <FieldArray
+                        name="fellowShipInfo"
+                        render={(arrayHelpers) => {
+                          return (
+                            <>
+                              <div className="row">
+                                {formik.values.fellowShipInfo?.map((e, i) => {
+                                  return (
+                                    <>
+                                      <div key={i}>
+                                        {i > 0 && (
+                                          <div className="float-end" key={i}>
+                                            <button
+                                              className="btn btn-danger"
+                                              onClick={() =>
+                                                arrayHelpers.remove(i)
+                                              }
+                                            >
+                                              X
+                                            </button>
+                                          </div>
+                                        )}
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor fellowShip Info "
-                  // name="fellowShipInfo[0]"
-                  // onChng={formik.handleChange("fellowShipInfo[0]")}
-                  // onBlr={formik.handleBlur("fellowShipInfo[0]")}
-                  // val={formik.values.fellowShipInfo[0]}
-                />
-                <div className="error">
-                  {/* {formik.touched.fellowShipInfo[0] && formik.errors.fellowShipInfo[0]} */}
-                </div>
-              </div>
+                                        <div className="form-group  ">
+                                          <Field
+                                            type="text"
+                                            placeholder={`FellowShip Info-${
+                                              i + 1
+                                            }`}
+                                            className="form-control  mb-2"
+                                            style={{ width: "95%" }}
+                                            name={`fellowShipInfo.${i}`}
+                                          />
+                                        </div>
+                                      </div>
+                                    </>
+                                  );
+                                })}
+                              </div>
+                              <div className="form-group  float-end">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() =>
+                                    arrayHelpers.insert(
+                                      formik.values.fellowShipInfo.length + 1,
+                                      []
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </>
+                          );
+                        }}
+                      />
+                      <div className="error">
+                        {formik.touched.fellowShipInfo &&
+                          formik.errors.fellowShipInfo}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor fellowShip Info1 "
-                  // name="fellowShipInfo[1]"
-                  // onChng={formik.handleChange("fellowShipInfo[1]")}
-                  // onBlr={formik.handleBlur("fellowShipInfo[1]")}
-                  // val={formik.values.fellowShipInfo[1]}
-                />
-                <div className="error">
-                  {/* {formik.touched.fellowShipInfo[1] && formik.errors.fellowShipInfo[1]} */}
-                </div>
-              </div>
+                    
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="metaTitle "
-                  name="metaTitle"
-                  onChng={formik.handleChange("metaTitle")}
-                  onBlr={formik.handleBlur("metaTitle")}
-                  val={formik.values.metaTitle}
-                />
-                <div className="error">
-                  {formik.touched.metaTitle && formik.errors.metaTitle}
-                </div>
-              </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="ogMEtaTitle "
-                  name="ogMEtaTitle"
-                  onChng={formik.handleChange("ogMEtaTitle")}
-                  onBlr={formik.handleBlur("ogMEtaTitle")}
-                  val={formik.values.ogMEtaTitle}
-                />
-                <div className="error">
-                  {formik.touched.ogMEtaTitle && formik.errors.ogMEtaTitle}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="metaTitle "
+                        name="metaTitle"
+                        onChng={formik.handleChange("metaTitle")}
+                        onBlr={formik.handleBlur("metaTitle")}
+                        val={formik.values.metaTitle}
+                      />
+                      <div className="error">
+                        {formik.touched.metaTitle && formik.errors.metaTitle}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="metaDescription "
-                  name="metaDescription"
-                  onChng={formik.handleChange("metaDescription")}
-                  onBlr={formik.handleBlur("metaDescription")}
-                  val={formik.values.metaDescription}
-                />
-                <div className="error">
-                  {formik.touched.metaDescription &&
-                    formik.errors.metaDescription}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="ogMEtaTitle "
+                        name="ogMEtaTitle"
+                        onChng={formik.handleChange("ogMEtaTitle")}
+                        onBlr={formik.handleBlur("ogMEtaTitle")}
+                        val={formik.values.ogMEtaTitle}
+                      />
+                      <div className="error">
+                        {formik.touched.ogMEtaTitle &&
+                          formik.errors.ogMEtaTitle}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="ogMetaDescription "
-                  name="ogMetaDescription"
-                  onChng={formik.handleChange("ogMetaDescription")}
-                  onBlr={formik.handleBlur("ogMetaDescription")}
-                  val={formik.values.ogMetaDescription}
-                />
-                <div className="error">
-                  {formik.touched.ogMetaDescription &&
-                    formik.errors.ogMetaDescription}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="metaDescription "
+                        name="metaDescription"
+                        onChng={formik.handleChange("metaDescription")}
+                        onBlr={formik.handleBlur("metaDescription")}
+                        val={formik.values.metaDescription}
+                      />
+                      <div className="error">
+                        {formik.touched.metaDescription &&
+                          formik.errors.metaDescription}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="metaTags "
-                  name="metaTags"
-                  onChng={formik.handleChange("metaTags")}
-                  onBlr={formik.handleBlur("metaTags")}
-                  val={formik.values.metaTags}
-                />
-                <div className="error">
-                  {formik.touched.metaTags && formik.errors.metaTags}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="ogMetaDescription "
+                        name="ogMetaDescription"
+                        onChng={formik.handleChange("ogMetaDescription")}
+                        onBlr={formik.handleBlur("ogMetaDescription")}
+                        val={formik.values.ogMetaDescription}
+                      />
+                      <div className="error">
+                        {formik.touched.ogMetaDescription &&
+                          formik.errors.ogMetaDescription}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="price "
-                  name="price"
-                  onChng={formik.handleChange("price")}
-                  onBlr={formik.handleBlur("price")}
-                  val={formik.values.price}
-                />
-                <div className="error">
-                  {formik.touched.price && formik.errors.price}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="metaTags "
+                        name="metaTags"
+                        onChng={formik.handleChange("metaTags")}
+                        onBlr={formik.handleBlur("metaTags")}
+                        val={formik.values.metaTags}
+                      />
+                      <div className="error">
+                        {formik.touched.metaTags && formik.errors.metaTags}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="file"
-                  label="Dr. image "
-                  name="image"
-                  onChng={formik.handleChange("image")}
-                  onBlr={formik.handleBlur("image")}
-                  val={formik.values.image}
-                />
-                <div className="error">
-                  {formik.touched.image && formik.errors.image}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="number"
+                        label="price "
+                        name="price"
+                        onChng={formik.handleChange("price")}
+                        onBlr={formik.handleBlur("price")}
+                        val={formik.values.price}
+                      />
+                      <div className="error">
+                        {formik.touched.price && formik.errors.price}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Availabile for Appointment "
-                  name="availabileforappointment"
-                  onChng={formik.handleChange("availabileforappointment")}
-                  onBlr={formik.handleBlur("availabileforappointment")}
-                  val={formik.values.availabileforappointment}
-                />
-                <div className="error">
-                  {formik.touched.availabileforappointment &&
-                    formik.errors.availabileforappointment}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="file"
+                        label="Doctor Image "
+                        accept="image/*"
+                        name="image"
+                        id="formFile"
+                        onChng={(e) =>
+                          formik.setFieldValue("image", e.target.files[0])
+                        }
+                      />{" "}
+                      <div className="error">
+                        {formik.touched.image && formik.errors.image}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor hospital "
-                  name="hospital"
-                  onChng={formik.handleChange("hospital")}
-                  onBlr={formik.handleBlur("hospital")}
-                  val={formik.values.hospital}
-                />
-                <div className="error">
-                  {formik.touched.hospital && formik.errors.hospital}
-                </div>
-              </div>
+                    <div className="col-6 d-flex">
+                      <div className="form-check  form-switch ">
+                        <input
+                          className="form-check-input  "
+                          type="checkbox"
+                          id="flexSwitchCheckChecked"
+                          name="availabileforappointment"
+                          value={formik.values.availabileforappointment}
+                          onChange={formik.handleChange(
+                            "availabileforappointment"
+                          )}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexSwitchCheckChecked"
+                        >
+                          Availabile For Appointment
+                        </label>
+                      </div>
+                      <div className="error">
+                        {formik.touched.availabileforappointment &&
+                          formik.errors.availabileforappointment}
+                      </div>
+                    </div>
 
-              <div className="col-6">
-                <CustomInput
-                  type="text"
-                  label="Doctor status "
-                  name="status"
-                  onChng={formik.handleChange("status")}
-                  onBlr={formik.handleBlur("status")}
-                  val={formik.values.status}
-                />
-                <div className="error">
-                  {formik.touched.status && formik.errors.status}
-                </div>
-              </div>
+                    <div className="col-6">
+                      <Select
+                        name="hospital"
+                        labelField="hospitalname"
+                        placeholder="Select hospital ..."
+                        valueField="_id"
+                        onChange={(e) => formik.setFieldValue("hospital", e)}
+                        className="form-control rounded p-3 mb-3"
+                        multi
+                        options={AllHospitals}
+                      />
+                      <div className="error">
+                        {formik.touched.hospital && formik.errors.hospital}
+                      </div>
+                    </div>
 
-              <div className="p-3 w-full ">
-                <button type="submit" className="btn btn-primary ">
-                  Add Doctor
-                </button>
+                    <div className="col-6">
+                      <select
+                        name="status"
+                        onChange={formik.handleChange("status")}
+                        onBlur={formik.handleBlur("status")}
+                        value={formik.values.status}
+                        className="form-control form-select py-3 mb-3"
+                      >
+                        <option value="">Select Status</option>
+                        <option value="draft">Draft</option>
+                        <option value="publish">Publish</option>
+                      </select>
+                      <div className="error">
+                        {formik.touched.status && formik.errors.status}
+                      </div>
+                    </div>
+
+                    <div className="p-3 w-full ">
+                      <button type="submit" className="btn btn-primary ">
+                        Add Doctor
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
-          </form>
-        </div>
-      </div>
+          </>
+        )}
+      </Formik>
     </>
   );
 };

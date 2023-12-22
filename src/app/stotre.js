@@ -4,7 +4,8 @@ import authReducer from "../features/auth/authSlice";
 import dCategoryReducer from "../features/dCategory/dCategorySlice";
 import doctorReducer from "../features/doctor/doctorSlice";
 import serviceCategoryReducer from "../features/serviceCategory/sCategorySlice";
-import serviceReducre from "../features/service/serviceSlice";
+import serviceReducer from "../features/service/serviceSlice";
+import hospitalReducer from "../features/hospital/hospitalSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     dCategory: dCategoryReducer,
     doctor: doctorReducer,
     sCategory: serviceCategoryReducer,
-    service: serviceReducre,
+    service: serviceReducer,
+    hospital: hospitalReducer,
   },
 });

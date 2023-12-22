@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
-import CustomModal from "../components/CustomModal";
+import CustomModal from "../../components/CustomModal";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { Table } from "antd";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "../../components/CustomInput";
 
 const columns = [
   {
@@ -141,7 +141,7 @@ const BookDoctor = () => {
           </div>
           <div className="col-6">
             <select
-              class="form-select form-select-lg mb-3"
+              className="form-select form-select-lg mb-3"
               aria-label="Large select"
             >
               <option selected>Status</option>
