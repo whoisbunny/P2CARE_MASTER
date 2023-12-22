@@ -79,7 +79,7 @@ const AddBlogCategory = () => {
           className="btn btn-primary mb-3"
           style={{ marginLeft: "55.5rem" }}
         >
-          Add Hospital
+          Add Blog
         </button>
       </div>
       <div className="dropdown my-3">
