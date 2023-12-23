@@ -7,13 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { allDoctorCategory } from "../../features/dCategory/dCategorySlice";
 
 import { getAllHospitals } from "../../features/hospital/hospitalSlice";
+import ReactQuill from "react-quill";
+import { createDoctor } from "../../features/doctor/doctorSlice";
 
 let schema = yup.object().shape({
   doctorName: "",
   doctorCode: "",
   departmentName: "",
   departmentCode: "",
-  designation: [],
+  designation: "",
 
   experties: [],
   slug: "",
@@ -46,13 +48,9 @@ const AddDoctor = () => {
   useEffect(() => {
     dispatch(allDoctorCategory());
     dispatch(getAllHospitals());
-
   }, []);
+  console.log(AllHospitals);
 
-
-  
-  
-  
   return (
     <>
       <Formik
@@ -61,9 +59,8 @@ const AddDoctor = () => {
           doctorCode: "",
           departmentName: "",
           departmentCode: "",
-          designation: [],
-          experties: [], // doctor category mathi data lavine multiple select option lagavu
-
+          designation: "",
+          experties: [],
           slug: "",
           location: "",
           description: "",
@@ -94,34 +91,44 @@ const AddDoctor = () => {
             departmentCode,
             designation,
             experties,
-            experienceInfo,
-            specialities,
             slug,
             location,
             description,
             shortDescription,
+            experienceInfo,
+            specialities,
             awardAndAchivementsInfo,
             talkPublicationInfo,
             languageInfo,
             educationInfo,
             fellowShipInfo,
+            metaTitle,
+            ogMetaTitle,
+            metaDescription,
+            ogMetaDescription,
+            metaTags,
+            price,
             image,
             availabileforappointment,
             hospital,
+            status,
           } = values;
           console.log(values);
           const experties1 = [];
           const hospital1 = [];
 
-          experties.forEach((element) => experties1.push(element?.name));
-          hospital.forEach((element) => hospital1.push(element?.hospitalname));
+          // experties.forEach((element) => {formData.append("experties", element)});
+
+          // hospital.forEach((element) =>
+          //   formData.append("hospital", element)
+          // );
           const formData = new FormData();
           formData.append("doctorName", doctorName);
           formData.append("doctorCode", doctorCode);
           formData.append("departmentName", departmentName);
           formData.append("departmentCode", departmentCode);
           formData.append("designation", designation);
-          formData.append("experties", experties1);
+          formData.append("experties", JSON.stringify(experties));
           formData.append("specialities", specialities);
           formData.append("slug", slug);
           formData.append("location", location);
@@ -135,7 +142,17 @@ const AddDoctor = () => {
           formData.append("fellowShipInfo", fellowShipInfo);
           formData.append("image", image);
           formData.append("availabileforappointment", availabileforappointment);
-          formData.append("hospital", hospital1);
+          formData.append("hospital", JSON.stringify(hospital));
+          formData.append("status", status);
+          formData.append("price", price);
+          formData.append("metaTags", metaTags);
+          formData.append("ogMetaDescription", ogMetaDescription);
+          formData.append("metaDescription", metaDescription);
+          formData.append("ogMetaTitle", ogMetaTitle);
+          formData.append("metaTitle", metaTitle);
+          console.log(formData.experties);
+          console.log(formData);
+          dispatch(createDoctor(formData));
         }}
       >
         {(formik) => (
@@ -144,7 +161,7 @@ const AddDoctor = () => {
               <h3 className="mb-4 title">Add Doctor</h3>
               <div>
                 <form onSubmit={formik.handleSubmit} className="mb-4 ">
-                  <div className="row">
+                  <div className="row align-items-center justify-content-center">
                     <div className="col-6">
                       <CustomInput
                         type="text"
@@ -203,68 +220,152 @@ const AddDoctor = () => {
                       </div>
                     </div>
 
-                    <div className="col-12 ">
-                      <div className="my-3">Add designation</div>
-                      <FieldArray
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Designation "
                         name="designation"
-                        render={(arrayHelpers) => {
-                          return (
-                            <>
-                              <div className="row">
-                                {formik.values.designation?.map((e, i) => {
-                                  return (
-                                    <>
-                                      <div key={i}>
-                                        {i > 0 && (
-                                          <div className="float-end" key={i}>
-                                            <button
-                                              className="btn btn-danger"
-                                              onClick={() =>
-                                                arrayHelpers.remove(i)
-                                              }
-                                            >
-                                              X
-                                            </button>
-                                          </div>
-                                        )}
-
-                                        <div className="form-group  ">
-                                          <Field
-                                            type="text"
-                                            placeholder={`designation-${i + 1}`}
-                                            className="form-control  mb-2"
-                                            style={{ width: "95%" }}
-                                            name={`designation.${i}`}
-                                          />
-                                        </div>
-                                      </div>
-                                    </>
-                                  );
-                                })}
-                              </div>
-                              <div className="form-group  float-end">
-                                <button
-                                  className="btn btn-primary"
-                                  onClick={() =>
-                                    arrayHelpers.insert(
-                                      formik.values.designation.length + 1,
-                                      []
-                                    )
-                                  }
-                                >
-                                  +
-                                </button>
-                              </div>
-                            </>
-                          );
-                        }}
+                        onChng={formik.handleChange("designation")}
+                        onBlr={formik.handleBlur("designation")}
+                        val={formik.values.designation}
                       />
+
                       <div className="error">
                         {formik.touched.designation &&
                           formik.errors.designation}
                       </div>
                     </div>
-                    <div className="col-12 ">
+
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Doctor slug "
+                        name="slug"
+                        onChng={formik.handleChange("slug")}
+                        onBlr={formik.handleBlur("slug")}
+                        val={formik.values.slug}
+                      />
+                      <div className="error">
+                        {formik.touched.slug && formik.errors.slug}
+                      </div>
+                    </div>
+                    <div className="col-6 mt-3">
+                      <Select
+                        name="experties"
+                        labelField="name"
+                        placeholder="Select Experties ..."
+                        valueField="_id"
+                        onChange={(e) => formik.setFieldValue("experties", e)}
+                        className="form-control rounded p-3 mb-3"
+                        multi
+                        options={DoctorCategory}
+                      />
+                      <div className="error">
+                        {formik.touched.experties && formik.errors.experties}
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <CustomInput
+                        type="text"
+                        label="Doctor location "
+                        name="location"
+                        onChng={formik.handleChange("location")}
+                        onBlr={formik.handleBlur("location")}
+                        val={formik.values.location}
+                      />
+                      <div className="error">
+                        {formik.touched.location && formik.errors.location}
+                      </div>
+                    </div>
+
+                    <div className="col-12 rounded my-3">
+                      <label
+                        htmlFor="exampleFormControlTextarea3"
+                        className=" m-1 mt-3 py-2"
+                      >
+                        Description
+                      </label>{" "}
+                      <ReactQuill
+                        id="exampleFormControlTextarea3"
+                        theme="snow"
+                        name="description"
+                        onChange={formik.handleChange("description")}
+                        value={formik.values.description}
+                      />
+                      <div className="error">
+                        {formik.touched.description &&
+                          formik.errors.description}
+                      </div>
+                    </div>
+
+                    <div className="col-12 form-group mb-3">
+                      <label
+                        htmlFor="exampleFormControlTextarea2"
+                        className=" m-1 mt-3"
+                      >
+                        Short Description
+                      </label>
+                      <textarea
+                        className="form-control"
+                        id="exampleFormControlTextarea2"
+                        rows="3"
+                        onChange={formik.handleChange("shortDescription")}
+                        onBlur={formik.handleBlur("shortDescription")}
+                        value={formik.values.shortDescription}
+                      />
+                      <div className="error">
+                        {formik.touched.shortDescription &&
+                          formik.errors.shortDescription}
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <select
+                        name="specialities"
+                        placeholder="Select Specialities"
+                        onChange={formik.handleChange("specialities")}
+                        onBlur={formik.handleBlur("specialities")}
+                        value={formik.values.specialities}
+                        className="form-control form-select py-3 px-4 mb-3"
+                        // style={{fontSize:'small',fontWeight:'light'}}
+                      >
+                        <option value="">Select specialities</option>
+                        {DoctorCategory?.map((e, i) => {
+                          return (
+                            <>
+                              <option key={i} value={e?.name}>
+                                {e?.name}
+                              </option>
+                            </>
+                          );
+                        })}
+                      </select>
+                      <div className="error">
+                        {formik.touched.specialities &&
+                          formik.errors.specialities}
+                      </div>
+                    </div>
+
+                    <div className="col-6">
+                      <Select
+                        name="hospital"
+                        labelField="hospitalname"
+                        placeholder="Select hospital ..."
+                        valueField="_id"
+                        onChange={(e) => formik.setFieldValue("hospital", e)}
+                        className="form-control rounded p-3 mb-3"
+                        multi
+                        options={AllHospitals}
+                      />
+                      <div className="error">
+                        {formik.touched.hospital && formik.errors.hospital}
+                      </div>
+                    </div>
+
+                    <div
+                      className="col-11  p-3 rounded mb-3 mb-3"
+                      style={{ background: " rgba(0, 0, 0, 0.1)" }}
+                    >
                       <div className="my-3">Add experienceInfo</div>
                       <FieldArray
                         name="experienceInfo"
@@ -327,109 +428,10 @@ const AddDoctor = () => {
                           formik.errors.experienceInfo}
                       </div>
                     </div>
-
-                    <div className="col-6">
-                      {/* <div className="my-3">Select Experties</div> */}
-
-                      <Select
-                        name="experties"
-                        labelField="name"
-                        placeholder="Select Experties ..."
-                        valueField="_id"
-                        onChange={(e) => formik.setFieldValue("experties", e)}
-                        className="form-control rounded p-3 mb-3"
-                        multi
-                        options={DoctorCategory}
-                      />
-                      <div className="error">
-                        {formik.touched.experties && formik.errors.experties}
-                      </div>
-                    </div>
-
-                    <div className="col-6">
-                      <CustomInput
-                        type="text"
-                        label="Doctor slug "
-                        name="slug"
-                        onChng={formik.handleChange("slug")}
-                        onBlr={formik.handleBlur("slug")}
-                        val={formik.values.slug}
-                      />
-                      <div className="error">
-                        {formik.touched.slug && formik.errors.slug}
-                      </div>
-                    </div>
-
-                    <div className="col-6">
-                      <CustomInput
-                        type="text"
-                        label="Doctor location "
-                        name="location"
-                        onChng={formik.handleChange("location")}
-                        onBlr={formik.handleBlur("location")}
-                        val={formik.values.location}
-                      />
-                      <div className="error">
-                        {formik.touched.location && formik.errors.location}
-                      </div>
-                    </div>
-
-                    <div className="col-12">
-                      <CustomInput
-                        type="text"
-                        label="Description "
-                        name="description"
-                        onChng={formik.handleChange("description")}
-                        onBlr={formik.handleBlur("description")}
-                        val={formik.values.description}
-                      />
-                      <div className="error">
-                        {formik.touched.description &&
-                          formik.errors.description}
-                      </div>
-                    </div>
-
-                    <div className="col-12">
-                      <CustomInput
-                        type="text"
-                        label="Short Description "
-                        name="shortDescription"
-                        onChng={formik.handleChange("shortDescription")}
-                        onBlr={formik.handleBlur("shortDescription")}
-                        val={formik.values.shortDescription}
-                      />
-                      <div className="error">
-                        {formik.touched.shortDescription &&
-                          formik.errors.shortDescription}
-                      </div>
-                    </div>
-
-                    <div className="col-6">
-                      <select
-                        name="specialities"
-                        onChange={formik.handleChange("specialities")}
-                        onBlur={formik.handleBlur("specialities")}
-                        value={formik.values.specialities}
-                        className="form-control form-select py-3 mb-3"
-                      >
-                        <option value="">Select specialities</option>
-                        {DoctorCategory?.map((e, i) => {
-                          return (
-                            <>
-                              <option key={i} value={e?.name}>
-                                {e?.name}
-                              </option>
-                            </>
-                          );
-                        })}
-                      </select>
-                      <div className="error">
-                        {formik.touched.specialities &&
-                          formik.errors.specialities}
-                      </div>
-                    </div>
-
-                    <div className="col-12 ">
+                    <div
+                      className="col-11 p-3 rounded mb-3 "
+                      style={{ background: " rgba(0, 0, 0, 0.1)" }}
+                    >
                       <div className="my-3">Add Award And AchivementsInfo</div>
                       <FieldArray
                         name="awardAndAchivementsInfo"
@@ -496,7 +498,10 @@ const AddDoctor = () => {
                       </div>
                     </div>
 
-                    <div className="col-12 ">
+                    <div
+                      className="col-11 rounded p-3 mb-3 "
+                      style={{ background: " rgba(0, 0, 0, 0.1)" }}
+                    >
                       <div className="my-3">Talk Publication Info</div>
                       <FieldArray
                         name="talkPublicationInfo"
@@ -562,7 +567,10 @@ const AddDoctor = () => {
                           formik.errors.talkPublicationInfo}
                       </div>
                     </div>
-                    <div className="col-12 ">
+                    <div
+                      className="col-11 rounded p-3 mb-3 "
+                      style={{ background: " rgba(0, 0, 0, 0.1)" }}
+                    >
                       <div className="my-3">Talk Language Info</div>
                       <FieldArray
                         name="languageInfo"
@@ -625,7 +633,10 @@ const AddDoctor = () => {
                           formik.errors.languageInfo}
                       </div>
                     </div>
-                    <div className="col-12 ">
+                    <div
+                      className="col-11 rounded p-3 mb-3 "
+                      style={{ background: " rgba(0, 0, 0, 0.1)" }}
+                    >
                       <div className="my-3"> Education Info</div>
                       <FieldArray
                         name="educationInfo"
@@ -688,7 +699,10 @@ const AddDoctor = () => {
                           formik.errors.educationInfo}
                       </div>
                     </div>
-                    <div className="col-12 ">
+                    <div
+                      className="col-11 rounded p-3 mb-3 "
+                      style={{ background: " rgba(0, 0, 0, 0.1)" }}
+                    >
                       <div className="my-3"> FellowShip Info</div>
                       <FieldArray
                         name="fellowShipInfo"
@@ -752,13 +766,10 @@ const AddDoctor = () => {
                       </div>
                     </div>
 
-                    
-
-
                     <div className="col-6">
                       <CustomInput
                         type="text"
-                        label="metaTitle "
+                        label="Meta Title "
                         name="metaTitle"
                         onChng={formik.handleChange("metaTitle")}
                         onBlr={formik.handleBlur("metaTitle")}
@@ -772,26 +783,32 @@ const AddDoctor = () => {
                     <div className="col-6">
                       <CustomInput
                         type="text"
-                        label="ogMEtaTitle "
-                        name="ogMEtaTitle"
-                        onChng={formik.handleChange("ogMEtaTitle")}
-                        onBlr={formik.handleBlur("ogMEtaTitle")}
-                        val={formik.values.ogMEtaTitle}
+                        label="OG Meta Title "
+                        name="ogMetaTitle"
+                        onChng={formik.handleChange("ogMetaTitle")}
+                        onBlr={formik.handleBlur("ogMetaTitle")}
+                        val={formik.values.ogMetaTitle}
                       />
                       <div className="error">
-                        {formik.touched.ogMEtaTitle &&
-                          formik.errors.ogMEtaTitle}
+                        {formik.touched.ogMetaTitle &&
+                          formik.errors.ogMetaTitle}
                       </div>
                     </div>
 
-                    <div className="col-6">
-                      <CustomInput
-                        type="text"
-                        label="metaDescription "
-                        name="metaDescription"
-                        onChng={formik.handleChange("metaDescription")}
-                        onBlr={formik.handleBlur("metaDescription")}
-                        val={formik.values.metaDescription}
+                    <div className="col-6 form-group">
+                      <label
+                        htmlFor="exampleFormControlTextarea"
+                        className=" m-1 mt-3"
+                      >
+                        Meta Description
+                      </label>
+                      <textarea
+                        className="form-control"
+                        id="exampleFormControlTextarea"
+                        rows="3"
+                        onChange={formik.handleChange("metaDescription")}
+                        onBlur={formik.handleBlur("metaDescription")}
+                        value={formik.values.metaDescription}
                       />
                       <div className="error">
                         {formik.touched.metaDescription &&
@@ -799,14 +816,20 @@ const AddDoctor = () => {
                       </div>
                     </div>
 
-                    <div className="col-6">
-                      <CustomInput
-                        type="text"
-                        label="ogMetaDescription "
-                        name="ogMetaDescription"
-                        onChng={formik.handleChange("ogMetaDescription")}
-                        onBlr={formik.handleBlur("ogMetaDescription")}
-                        val={formik.values.ogMetaDescription}
+                    <div className="col-6 form-group">
+                      <label
+                        htmlFor="exampleFormControlTextarea1"
+                        className=" m-1 mt-3"
+                      >
+                        OG Meta Description
+                      </label>
+                      <textarea
+                        className="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        onChange={formik.handleChange("ogMetaDescription")}
+                        onBlur={formik.handleBlur("ogMetaDescription")}
+                        value={formik.values.ogMetaDescription}
                       />
                       <div className="error">
                         {formik.touched.ogMetaDescription &&
@@ -858,7 +881,25 @@ const AddDoctor = () => {
                       </div>
                     </div>
 
-                    <div className="col-6 d-flex">
+                    <div className="col-6">
+                      <select
+                        name="status"
+                        placeholder="Select Status..."
+                        onChange={formik.handleChange("status")}
+                        onBlur={formik.handleBlur("status")}
+                        value={formik.values.status}
+                        className="form-control form-select py-3 px-4 "
+                      >
+                        <option value="">Select Status</option>
+                        <option value="draft">Draft</option>
+                        <option value="publish">Publish</option>
+                      </select>
+                      <div className="error">
+                        {formik.touched.status && formik.errors.status}
+                      </div>
+                    </div>
+
+                    <div className="col-6 m-4 d-flex">
                       <div className="form-check  form-switch ">
                         <input
                           className="form-check-input  "
@@ -882,40 +923,6 @@ const AddDoctor = () => {
                           formik.errors.availabileforappointment}
                       </div>
                     </div>
-
-                    <div className="col-6">
-                      <Select
-                        name="hospital"
-                        labelField="hospitalname"
-                        placeholder="Select hospital ..."
-                        valueField="_id"
-                        onChange={(e) => formik.setFieldValue("hospital", e)}
-                        className="form-control rounded p-3 mb-3"
-                        multi
-                        options={AllHospitals}
-                      />
-                      <div className="error">
-                        {formik.touched.hospital && formik.errors.hospital}
-                      </div>
-                    </div>
-
-                    <div className="col-6">
-                      <select
-                        name="status"
-                        onChange={formik.handleChange("status")}
-                        onBlur={formik.handleBlur("status")}
-                        value={formik.values.status}
-                        className="form-control form-select py-3 mb-3"
-                      >
-                        <option value="">Select Status</option>
-                        <option value="draft">Draft</option>
-                        <option value="publish">Publish</option>
-                      </select>
-                      <div className="error">
-                        {formik.touched.status && formik.errors.status}
-                      </div>
-                    </div>
-
                     <div className="p-3 w-full ">
                       <button type="submit" className="btn btn-primary ">
                         Add Doctor

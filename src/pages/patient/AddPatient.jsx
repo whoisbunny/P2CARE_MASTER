@@ -37,24 +37,24 @@ const AddPatient = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: updateData[0]?.name || "",
-      username: updateData[0]?.username || "",
-      email: updateData[0]?.email || "",
-      phone: updateData[0]?.phone || "",
-      country: updateData[0]?.country || "",
-      state: updateData[0]?.state || "",
-      city: updateData[0]?.city || "",
-      zipcode: updateData[0]?.zipcode || "",
-      address: updateData[0]?.address || "",
-      password: updateData[0]?.password || "",
-      passwordconfirm: updateData[0]?.passwordconfirm || "",
+      name: updateData ? updateData[0]?.name : "",
+      username: updateData ? updateData[0]?.username : "",
+      email:  updateData ? updateData[0]?.email : "",
+      phone:  updateData ? updateData[0]?.phone : "",
+      country: updateData ? updateData[0]?.country : "",
+      state:   updateData ?updateData[0]?.state : "",
+      city: updateData ? updateData[0]?.city : "",
+      zipcode: updateData ? updateData[0]?.zipcode : "",
+      address: updateData ? updateData[0]?.address : "",
+      password: updateData ? updateData[0]?.password : "",
+      passwordconfirm: updateData ? updateData[0]?.passwordconfirm : "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
       if (patientId === undefined || "") {
         dispatch(createAPatient(values));
       } else {
-        dispatch(updateAPatient({ id: patientId  , values: values }));
+        dispatch(updateAPatient({ id: patientId, values: values }));
       }
     },
   });

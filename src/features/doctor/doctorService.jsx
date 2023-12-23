@@ -2,15 +2,11 @@ import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl";
 import { config } from "../../utils/axiosConfig";
 
-// const doctorCategory = async (catData) => {
-//   const res = await axios.post(
-//     `${baseUrl}doctorcategory/addcategory`,
-//     catData,
-//     config
-//   );
+const createNewDoctor = async (Data) => {
+  const res = await axios.post(`${baseUrl}doctor/adddoctor`, Data, config);
 
-//   return res.data;
-// };
+  return res.data;
+};
 
 const getDoctors = async () => {
   const res = await axios.get(`${baseUrl}doctor/alldoctor`, config);
@@ -35,7 +31,7 @@ const getDoctors = async () => {
 // };
 
 const doctorService = {
-  //   doctorCategory,
+  createNewDoctor,
   getDoctors,
   //   deleteCategory,
   //   updateCategory,

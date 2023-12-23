@@ -1,9 +1,7 @@
 import { useFormik } from "formik";
 // import CustomInput from "../components/CustomInput";
 // import * as yup from "yup";
-import { Link } from "react-router-dom";
-import { AiFillDelete } from "react-icons/ai";
-import { BiEdit } from "react-icons/bi";
+
 import { useState } from "react";
 import { Table } from "antd";
 import CustomModal from "../../components/CustomModal";

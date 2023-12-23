@@ -28,6 +28,7 @@ import AddService from "./pages/service/AddService";
 import SearchService from "./pages/service/SearchService";
 import ServiceCategoryList from "./pages/service/ServiceCategoryList";
 import AddServiceCategory from "./pages/service/AddServiceCategory";
+import AddHospital from "./pages/hospital/AddHospital";
 
 function App() {
   return (
@@ -42,7 +43,8 @@ function App() {
             <Route path="all-patients" element={<PatientList />} />
             <Route path="patient" element={<AddPatient />} />
             <Route path="patient/:id" element={<AddPatient />} />
-            <Route path="add-doctor" element={<AddDoctor />} />
+            <Route path="doctor" element={<AddDoctor />} />
+            <Route path="doctor/:id" element={<AddDoctor />} />
             <Route path="all-doctors" element={<DoctorList />} />
             <Route path="search-doctor" element={<SearchDoctor />} />
             <Route path="doctor-category-list" element={<DoctorCategory />} />
@@ -57,11 +59,11 @@ function App() {
             <Route path="add-blog" element={<AddBlog />} />
             <Route path="add-blog/:id" element={<AddBlog />} />
 
-
-
             <Route path="testimonial" element={<Testimonial />} />
 
             <Route path="all-hospital" element={<HospitalList />} />
+            <Route path="hospital" element={<AddHospital />} />
+
             <Route path="faq" element={<Faq />} />
             <Route path="blog-hospital" element={<HospitalBlog />} />
             <Route path="hospital/all-review" element={<HospitalReview />} />
@@ -71,10 +73,16 @@ function App() {
             <Route path="service/:id" element={<AddService />} />
             <Route path="service-list" element={<ServiceList />} />
             <Route path="search-service" element={<SearchService />} />
-            
-            <Route path="service-categiry-list" element={<ServiceCategoryList />} />
+
+            <Route
+              path="service-categiry-list"
+              element={<ServiceCategoryList />}
+            />
             <Route path="service-categiry" element={<AddServiceCategory />} />
-            <Route path="service-categiry/:id" element={<AddServiceCategory />} />
+            <Route
+              path="service-categiry/:id"
+              element={<AddServiceCategory />}
+            />
 
             {/* <Route path="blog-category-list" element={<BlogCatList />} /> */}
           </Route>

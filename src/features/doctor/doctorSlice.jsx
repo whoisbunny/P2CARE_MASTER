@@ -9,17 +9,17 @@ const initialState = {
   message: "",
 };
 
-// export const createDoctor = createAsyncThunk(
-//   "doctor/add",
-//   async (Data, thunkAPI) => {
-//     //  console.log(catData);
-//     try {
-//       return await doctorService.doctorCategory(Data);
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
+export const createDoctor = createAsyncThunk(
+  "doctor/add",
+  async (Data, thunkAPI) => {
+    //  console.log(catData);
+    try {
+      return await doctorService.createNewDoctor(Data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const getAllDoctors = createAsyncThunk(
   "doctor/getAllDoctors",
@@ -40,24 +40,24 @@ export const doctorSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // builder.addCase(createDoctor.pending, (state) => {
-    //   state.isLoading = true;
-    // }),
-    //   builder.addCase(createDoctor.fulfilled, (state, action) => {
-    //     state.isLoading = false;
-    //     state.isSuccess = true;
-    //     state.isError = false;
+    builder.addCase(createDoctor.pending, (state) => {
+      state.isLoading = true;
+    }),
+      builder.addCase(createDoctor.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
 
-    //     state.dCategory = action.payload?.data;
-    //     if (state.isSuccess === true) {
-    //       toast.success("Doctors Category Created");
-    //     }
-    //   }),
-    //   builder.addCase(createDoctor.rejected, (state) => {
-    //     state.isLoading = false;
-    //     state.isError = true;
-    //     state.isSuccess = false;
-    //   });
+        state.NewDoctor = action.payload?.data;
+        if (state.isSuccess === true) {
+          toast.success("Doctors Added successfully");
+        }
+      }),
+      builder.addCase(createDoctor.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      });
     builder.addCase(getAllDoctors.pending, (state) => {
       state.isLoading = true;
     }),

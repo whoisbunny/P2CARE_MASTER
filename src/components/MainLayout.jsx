@@ -71,7 +71,7 @@ const MainLayout = () => {
                     label: "All Doctors",
                   },
                   {
-                    key: "add-doctor",
+                    key: "doctor",
                     label: "New Doctor",
                   },
                   {

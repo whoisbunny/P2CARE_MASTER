@@ -86,16 +86,14 @@ const AddHospital = () => {
   return (
     <div className="mt-3">
       <div
-        className="header d-inline-flex mb-3"
-        style={{ display: "inline-block" }}
+        className="header d-flex justify-content-between mb-3"
       >
         <h2 className="text-header">Add New Hospital</h2>
-        <button
+        <Link to="/admin/hospital"
           className="btn btn-primary mb-3"
-          style={{ marginLeft: "55.5rem" }}
         >
           New Hospital
-        </button>
+        </Link>
       </div>
       <div className="dropdown my-3">
         <button
