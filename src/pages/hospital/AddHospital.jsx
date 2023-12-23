@@ -1,89 +1,23 @@
-import { Link } from "react-router-dom";
-import { AiFillDelete } from "react-icons/ai";
-import { BiEdit } from "react-icons/bi";
-import CustomModal from "../../components/CustomModal";
-import { useState } from "react";
 import { useFormik } from "formik";
-import { Table } from "antd";
+import CustomInput from "../../components/CustomInput";
+import * as yup from "yup";
 
-const columns = [
-  {
-    title: "SNo",
-    dataIndex: "key",
-  },
-  {
-    title: "Name",
-    dataIndex: "name",
-    sorter: (a, b) => a.name.length - b.name.length,
-  },
-  {
-    title: "Image",
-    dataIndex: "image",
-    sorter: (a, b) => a.name.length - b.name.length,
-  },
-  {
-    title: "Opening Time",
-    dataIndex: "opentime",
-    sorter: (a, b) => a.name.length - b.name.length,
-  },
-  {
-    title: "Closing Time",
-    dataIndex: "colseTime",
-    sorter: (a, b) => a.name.length - b.name.length,
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    sorter: (a, b) => a.name.length - b.name.length,
-  },
-  {
-    title: "Action",
-    dataIndex: "action",
-  },
-];
-
-const AddHospital = () => {
-  const [open, setOpen] = useState(false);
-
-  const hideModal = () => {
-    setOpen(false);
-  };
-
-  const data1 = [];
-  for (let i = 0; i < 1; i++) {
-    data1.push({
-      key: i + 1,
-      name: "raam",
-      email: "raam",
-      username: "raam",
-      action: (
-        <>
-          <Link
-            //   to={`/admin/blog-category/${bCatState[i]._id}`}
-            className=" fs-3 text-danger"
-          >
-            <BiEdit />
-          </Link>
-          <button
-            className="ms-2 fs-3 text-danger bg-transparent border-0"
-            // onClick={() => showModal(bCatState[i]._id)}
-          >
-            <AiFillDelete />
-          </button>
-        </>
-      ),
-    });
-  }
-
+const AddDoctor = () => {
   const formik = useFormik({
-    initialValues: {},
-    // validationSchema: schema,
+    initialValues: {
+      Name: "",
+      image: "",
+      openingTime: "",
+      closingTime: "",
+      status: "",
+    },
+    validationSchema: schema,
     onSubmit: (values) => {
       console.log(values);
     },
   });
-
   return (
+<<<<<<< HEAD
     <div className="mt-3">
       <div
         className="header d-flex justify-content-between mb-3"
@@ -133,23 +67,102 @@ const AddHospital = () => {
         </form>
         {/* </div> */}
       </div>
+=======
+    <>
+>>>>>>> 97c5835390cee29f0dd0b7c5a07a9c9fb8d4c123
       <div>
-        <Table
-          className="table table-responsive"
-          columns={columns}
-          dataSource={data1}
-        />
+        <h3 className="mb-4 title">Add Doctor</h3>
+        <div>
+          <form onSubmit={formik.handleSubmit} className="mb-4 ">
+            <div className="row">
+              <div className="col-6">
+                <CustomInput
+                  type="text"
+                  label="Name "
+                  name="Name"
+                  onChng={formik.handleChange("Name")}
+                  onBlr={formik.handleBlur("Name")}
+                  val={formik.values.Name}
+                />
+                <div className="error">
+                  {formik.touched.Name && formik.errors.Name}
+                </div>
+              </div>
+
+              <div className="col-4 mb-3">
+                <CustomInput
+                  type="file"
+                  label="Enter image "
+                  name="image"
+                  accept="image/*"
+                  id="formFile"
+                  // onChng={(e) =>
+                  //   formik.setFieldValue("image", e.target.files[0])
+                  // }
+                />
+                <div className="error">
+                  {formik.touched.image && formik.errors.image}
+                </div>
+              </div>
+
+              <div className="col-6">
+                <CustomInput
+                  type="text"
+                  label="Opening Time"
+                  name="opentime"
+                  onChng={formik.handleChange("opentime")}
+                  onBlr={formik.handleBlur("opentime")}
+                  val={formik.values.opentime}
+                />
+                <div className="error">
+                  {formik.touched.opentime &&
+                    formik.errors.opentime}
+                </div>
+              </div>
+
+              <div className="col-6">
+                <CustomInput
+                  type="text"
+                  label="Closing Time"
+                  name="closetime"
+                  onChng={formik.handleChange("closetime")}
+                  onBlr={formik.handleBlur("closetime")}
+                  val={formik.values.closetime}
+                />
+                <div className="error">
+                  {formik.touched.closetime &&
+                    formik.errors.closetime}
+                </div>
+              </div>
+
+              <div className="col-4 mb-3 ">
+                <select
+                  name="status"
+                  className="form-control form-select py-3 "
+                  // onChange={formik.handleChange("status")}
+                  // onBlur={formik.handleBlur("status")}
+                  // value={formik.values.status}
+                >
+                  <option selected>Select Status</option>
+                  <option value="draft">Draft</option>
+                  <option value="publish">Publish</option>
+                </select>
+                <div className="error">
+                  {formik.touched.status && formik.errors.status}
+                </div>
+              </div>
+
+              <div className="p-3 w-full ">
+                <button type="submit" className="btn btn-primary ">
+                  Add Hospital
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-      <CustomModal
-        hideModal={hideModal}
-        open={open}
-        //   performAction={() => {
-        //     deleteBlogCategory(blogCatId);
-        //   }}
-        title="Are you sure you want to delete this blog category?"
-      />
-    </div>
+    </>
   );
 };
 
-export default AddHospital;
+export default AddDoctor;
