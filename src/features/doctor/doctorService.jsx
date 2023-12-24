@@ -21,20 +21,20 @@ const deleteDoctor = async (id) => {
   );
   return response.data;
 };
-// const updateCategory = async (catData) => {
-//   const response = axios.put(
-//     `${baseUrl}doctorcategory/updatecategory/${catData.id}`,
-//     catData.formData,
-//     config
-//   );
-//   return response.data;
-// };
+const updateDoctor = async (DrData) => {
+  const response = axios.put(
+    `${baseUrl}doctorcategory/updatedoctor/${DrData.id}`,
+    DrData.formData,
+    config
+  );
+  return response.data;
+};
 
 const doctorService = {
   createNewDoctor,
   getDoctors,
-    deleteDoctor,
-  //   updateCategory,
+  deleteDoctor,
+  updateDoctor,
 };
 
 export default doctorService;

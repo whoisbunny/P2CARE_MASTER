@@ -8,7 +8,12 @@ import { allDoctorCategory } from "../../features/dCategory/dCategorySlice";
 
 import { getAllHospitals } from "../../features/hospital/hospitalSlice";
 import ReactQuill from "react-quill";
-import { createDoctor, getAllDoctors, resetState } from "../../features/doctor/doctorSlice";
+import {
+  createDoctor,
+  getAllDoctors,
+  resetState,
+  updateDoctor,
+} from "../../features/doctor/doctorSlice";
 
 let schema = yup.object().shape({
   doctorName: "",
@@ -43,27 +48,25 @@ let schema = yup.object().shape({
 
 const AddDoctor = () => {
   const DoctorCategory = useSelector((state) => state.dCategory?.dCategories);
-    const allDoctors = useSelector((state) => state?.doctor?.allDoctors);
+  const allDoctors = useSelector((state) => state?.doctor?.allDoctors);
 
-
-      const doctorId = location.pathname.split("/")[3];
+  const doctorId = location.pathname.split("/")[3];
   const updateData = allDoctors?.filter((e) => {
     return e._id === doctorId;
   });
 
-
-  console.log(updateData);
   const AllHospitals = useSelector((state) => state.hospital?.AllHospitals);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(allDoctorCategory());
     dispatch(getAllHospitals());
-        dispatch(getAllDoctors());
+    dispatch(getAllDoctors());
 
-
-      dispatch(resetState());
+    dispatch(resetState());
   }, []);
-  console.log(updateData[0].availabileforappointment);
+
+
+
 
   return (
     <>
@@ -162,14 +165,19 @@ const AddDoctor = () => {
           formData.append("metaDescription", metaDescription);
           formData.append("ogMetaTitle", ogMetaTitle);
           formData.append("metaTitle", metaTitle);
-
-          dispatch(createDoctor(formData));
+          if (doctorId === undefined || "") {
+            dispatch(createDoctor(formData));
+          } else {
+            dispatch(updateDoctor({ id: doctorId, formData: formData }));
+          }
         }}
       >
         {(formik) => (
           <>
             <div>
-              <h3 className="mb-4 title">Add Doctor</h3>
+              <h3 className="mb-4 title">
+                {doctorId !== undefined || "" ? "Edit" : "Add"} Doctor
+              </h3>
               <div>
                 <form onSubmit={formik.handleSubmit} className="mb-4 ">
                   <div className="row align-items-center justify-content-center">
@@ -936,7 +944,7 @@ const AddDoctor = () => {
                     </div>
                     <div className="p-3 w-full ">
                       <button type="submit" className="btn btn-primary ">
-                        Add Doctor
+                        {doctorId !== undefined || "" ? "Edit" : "Add"} Doctor
                       </button>
                     </div>
                   </div>
