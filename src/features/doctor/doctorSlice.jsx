@@ -31,6 +31,16 @@ export const getAllDoctors = createAsyncThunk(
     }
   }
 );
+export const deleteADoctor = createAsyncThunk(
+  "doctor/delete",
+  async (id,thunkAPI) => {
+    try {
+      return await doctorService.deleteDoctor(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 
 export const resetState = createAction("Reset_all");
@@ -68,6 +78,24 @@ export const doctorSlice = createSlice({
         state.allDoctors = action.payload?.data;
       }),
       builder.addCase(getAllDoctors.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      });
+    builder.addCase(deleteADoctor.pending, (state) => {
+      state.isLoading = true;
+    }),
+      builder.addCase(deleteADoctor.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+
+        state.deletedDoctor = action.payload?.data;
+        if(state.isSuccess === true) {
+
+          toast.success('Doctor deleted successfully')
+        }
+      }),
+      builder.addCase(deleteADoctor.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

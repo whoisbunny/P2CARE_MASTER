@@ -5,7 +5,7 @@ import { BiEdit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import CustomModal from "../../components/CustomModal";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllDoctors, resetState } from "../../features/doctor/doctorSlice";
+import { deleteADoctor, getAllDoctors, resetState } from "../../features/doctor/doctorSlice";
 
 const columns = [
   {
@@ -52,23 +52,27 @@ const columns = [
 ];
 
 const DoctorList = () => {
+
+
   const allDoctors = useSelector((state) => state?.doctor?.allDoctors);
-  console.log(allDoctors);
+
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getAllDoctors());
     dispatch(resetState());
+
   }, []);
    const [open, setOpen] = useState(false);
+   const [delDoc, setdelDoc] = useState('')
 
 
 
 
 
-   // const showModal = (e) => {
-   //   setOpen(true);
-   //   setblogCatId(e);
-   // };
+   const showModal = (e) => {
+     setOpen(true);
+     setdelDoc(e);
+   };
 
    const hideModal = () => {
      setOpen(false);
@@ -102,25 +106,29 @@ const DoctorList = () => {
        action: (
          <>
            <Link
-             //   to={`/admin/blog-category/${bCatState[i]._id}`}
+             to={`/admin/doctor/${allDoctors[i]?._id}`}
              className=" fs-3 text-danger"
            >
              <BiEdit />
            </Link>
-           <button className="ms-3 fs-3 text-danger bg-transparent border-0">
+           <button
+             className="ms-3 fs-3 text-danger bg-transparent border-0"
+             onClick={() => showModal(allDoctors[i]?._id)}
+           >
              <AiFillDelete />
            </button>
          </>
        ),
      });
    }
-   // const deleteBlogCategory = (e) => {
-   //   dispatch(deleteABlogCat(e));
-   //   setOpen(false);
-   //   setTimeout(() => {
-   //     dispatch(getCategories());
-   //   }, 100);
-   // };
+   const deleteDoctor = (e) => {
+     dispatch(deleteADoctor(e));
+     setOpen(false);
+     setTimeout(() => {
+       dispatch(getAllDoctors());
+       dispatch(resetState())
+     }, 100);
+   };
    return (
      <div>
        <h3 className="mb-4 title px-5">All Doctors</h3>
@@ -130,9 +138,9 @@ const DoctorList = () => {
        <CustomModal
          hideModal={hideModal}
          open={open}
-         //   performAction={() => {
-         //     deleteBlogCategory(blogCatId);
-         //   }}
+           performAction={() => {
+             deleteDoctor(delDoc);
+           }}
          title="Are you sure you want to delete this blog category?"
        />
      </div>

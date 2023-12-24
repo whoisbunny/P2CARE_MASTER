@@ -2,13 +2,13 @@ import { Field, FieldArray, Formik } from "formik";
 import CustomInput from "../..//components/CustomInput";
 import * as yup from "yup";
 import Select from "react-dropdown-select";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { allDoctorCategory } from "../../features/dCategory/dCategorySlice";
 
 import { getAllHospitals } from "../../features/hospital/hospitalSlice";
 import ReactQuill from "react-quill";
-import { createDoctor } from "../../features/doctor/doctorSlice";
+import { createDoctor, getAllDoctors, resetState } from "../../features/doctor/doctorSlice";
 
 let schema = yup.object().shape({
   doctorName: "",
@@ -43,45 +43,65 @@ let schema = yup.object().shape({
 
 const AddDoctor = () => {
   const DoctorCategory = useSelector((state) => state.dCategory?.dCategories);
+    const allDoctors = useSelector((state) => state?.doctor?.allDoctors);
+
+
+      const doctorId = location.pathname.split("/")[3];
+  const updateData = allDoctors?.filter((e) => {
+    return e._id === doctorId;
+  });
+
+
+  console.log(updateData);
   const AllHospitals = useSelector((state) => state.hospital?.AllHospitals);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(allDoctorCategory());
     dispatch(getAllHospitals());
+        dispatch(getAllDoctors());
+
+
+      dispatch(resetState());
   }, []);
-  console.log(AllHospitals);
+  console.log(updateData[0].availabileforappointment);
 
   return (
     <>
       <Formik
         initialValues={{
-          doctorName: "",
-          doctorCode: "",
-          departmentName: "",
-          departmentCode: "",
-          designation: "",
-          experties: [],
-          slug: "",
-          location: "",
-          description: "",
-          shortDescription: "",
-          experienceInfo: [],
-          specialities: "",
-          awardAndAchivementsInfo: [],
-          talkPublicationInfo: [],
-          languageInfo: [],
-          educationInfo: [],
-          fellowShipInfo: [],
-          metaTitle: "",
-          ogMetaTitle: "",
-          metaDescription: "",
-          ogMetaDescription: "",
-          metaTags: "",
-          price: "",
-          image: "",
-          availabileforappointment: false,
-          hospital: "",
-          status: "",
+          doctorName: updateData ? updateData[0]?.doctorName : "",
+          doctorCode: updateData ? updateData[0]?.doctorCode : "",
+          departmentName: updateData ? updateData[0]?.departmentName : "",
+          departmentCode: updateData ? updateData[0]?.departmentCode : "",
+          designation: updateData ? updateData[0]?.designation : "",
+          experties: updateData ? updateData[0]?.experties : [],
+          slug: updateData ? updateData[0]?.slug : "",
+          location: updateData ? updateData[0]?.location : "",
+          description: updateData ? updateData[0]?.description : "",
+          shortDescription: updateData ? updateData[0]?.shortDescription : "",
+          experienceInfo: updateData ? updateData[0]?.experienceInfo : [],
+          specialities: updateData ? updateData[0]?.specialities : "",
+          awardAndAchivementsInfo: updateData
+            ? updateData[0]?.awardAndAchivementsInfo
+            : [],
+          talkPublicationInfo: updateData
+            ? updateData[0]?.talkPublicationInfo
+            : [],
+          languageInfo: updateData ? updateData[0]?.languageInfo : [],
+          educationInfo: updateData ? updateData[0]?.educationInfo : [],
+          fellowShipInfo: updateData ? updateData[0]?.fellowShipInfo : [],
+          metaTitle: updateData ? updateData[0]?.metaTitle : "",
+          ogMetaTitle: updateData ? updateData[0]?.ogMetaTitle : "",
+          metaDescription: updateData ? updateData[0]?.metaDescription : "",
+          ogMetaDescription: updateData ? updateData[0]?.ogMetaDescription : "",
+          metaTags: updateData ? updateData[0]?.metaTags : "",
+          price: updateData ? updateData[0]?.price : "",
+          image: updateData ? updateData[0]?.image : "",
+          availabileforappointment: updateData
+            ? updateData[0]?.availabileforappointment
+            : false,
+          hospital: updateData ? updateData[0]?.hospital : "",
+          status: updateData ? updateData[0]?.status : "",
         }}
         onSubmit={(values) => {
           const {
@@ -113,15 +133,7 @@ const AddDoctor = () => {
             hospital,
             status,
           } = values;
-          console.log(values);
-          const experties1 = [];
-          const hospital1 = [];
 
-          // experties.forEach((element) => {formData.append("experties", element)});
-
-          // hospital.forEach((element) =>
-          //   formData.append("hospital", element)
-          // );
           const formData = new FormData();
           formData.append("doctorName", doctorName);
           formData.append("doctorCode", doctorCode);
@@ -150,8 +162,7 @@ const AddDoctor = () => {
           formData.append("metaDescription", metaDescription);
           formData.append("ogMetaTitle", ogMetaTitle);
           formData.append("metaTitle", metaTitle);
-          console.log(formData.experties);
-          console.log(formData);
+
           dispatch(createDoctor(formData));
         }}
       >

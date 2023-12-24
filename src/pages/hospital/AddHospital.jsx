@@ -11,67 +11,16 @@ const AddDoctor = () => {
       closingTime: "",
       status: "",
     },
-    validationSchema: schema,
+    // validationSchema: schema,
     onSubmit: (values) => {
       console.log(values);
     },
   });
   return (
-<<<<<<< HEAD
-    <div className="mt-3">
-      <div
-        className="header d-flex justify-content-between mb-3"
-      >
-        <h2 className="text-header">Add New Hospital</h2>
-        <Link to="/admin/hospital"
-          className="btn btn-primary mb-3"
-        >
-          New Hospital
-        </Link>
-      </div>
-      <div className="dropdown my-3">
-        <button
-          className="btn btn-outlined border col-md-2 dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          Bulk Action
-        </button>
-        <ul className="dropdown-menu">
-          <li>
-            <a className="dropdown-item" href="#">
-              Something else here
-            </a>
-          </li>
-        </ul>{" "}
-        <button className="btn btn-primary">Apply</button>
-      </div>
-      <div
-        className="header d-inline-flex mb-3"
-        style={{ display: "inline-block" }}
-      >
-        <h6 className="text-responsive mt-2">Show</h6>
-        {/* <div className="my-3"> */}
-        <form className="d-flex mb-2" role="search">
-          <h6 className="form-label mt-2" style={{ marginLeft: "55rem" }}>
-            Search:
-          </h6>
-          <input
-            className="form-control"
-            style={{ marginLeft: "5px" }}
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-        </form>
-        {/* </div> */}
-      </div>
-=======
     <>
->>>>>>> 97c5835390cee29f0dd0b7c5a07a9c9fb8d4c123
+
       <div>
-        <h3 className="mb-4 title">Add Doctor</h3>
+        <h3 className="mb-4 title">Add Hospital</h3>
         <div>
           <form onSubmit={formik.handleSubmit} className="mb-4 ">
             <div className="row">

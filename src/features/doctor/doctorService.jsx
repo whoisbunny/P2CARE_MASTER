@@ -14,13 +14,13 @@ const getDoctors = async () => {
   return res.data;
 };
 
-// const deleteCategory = async (id) => {
-//   const response = await axios.delete(
-//     `${baseUrl}doctorcategory/deletecategory/${id}`,
-//     config
-//   );
-//   return response.data;
-// };
+const deleteDoctor = async (id) => {
+  const response = await axios.delete(
+    `${baseUrl}doctor/deletedoctor/${id}`,
+    config
+  );
+  return response.data;
+};
 // const updateCategory = async (catData) => {
 //   const response = axios.put(
 //     `${baseUrl}doctorcategory/updatecategory/${catData.id}`,
@@ -33,7 +33,7 @@ const getDoctors = async () => {
 const doctorService = {
   createNewDoctor,
   getDoctors,
-  //   deleteCategory,
+    deleteDoctor,
   //   updateCategory,
 };
 
