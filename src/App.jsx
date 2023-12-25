@@ -29,6 +29,7 @@ import SearchService from "./pages/service/SearchService";
 import ServiceCategoryList from "./pages/service/ServiceCategoryList";
 import AddServiceCategory from "./pages/service/AddServiceCategory";
 import AddHospital from "./pages/hospital/AddHospital";
+import BookDoctorList from "./pages/doctor/BookDoctorList";
 
 function App() {
   return (
@@ -51,6 +52,8 @@ function App() {
             <Route path="doctor-category" element={<AddDoctorCategory />} />
             <Route path="doctor-category/:id" element={<AddDoctorCategory />} />
             <Route path="doctor-booking" element={<BookDoctor />} />
+            <Route path="doctor-booking-list" element={<BookDoctorList />} />
+            <Route path="doctor-booking/:id" element={<BookDoctor />} />
             <Route path="all-doctor-review" element={<ReviewDoctor />} />
 
             <Route path="all-blog" element={<BlogList />} />
@@ -63,6 +66,7 @@ function App() {
 
             <Route path="all-hospital" element={<HospitalList />} />
             <Route path="hospital" element={<AddHospital />} />
+            <Route path="hospital/:id" element={<AddHospital />} />
 
             <Route path="faq" element={<Faq />} />
             <Route path="blog-hospital" element={<HospitalBlog />} />

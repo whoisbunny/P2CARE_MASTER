@@ -20,10 +20,20 @@ const allHospital = async () => {
 
   return res.data;
 };
+const deleteHospital = async () => {
+  const res = await axios.get(
+    `${baseUrl}hospital/allhospital`,
+    
+    config
+  );
+
+  return res.data;
+};
 
 
 const hospitalService = {
   addHospital,
   allHospital,
+  deleteHospital,
 };
 export default hospitalService;

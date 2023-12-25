@@ -6,6 +6,7 @@ import doctorReducer from "../features/doctor/doctorSlice";
 import serviceCategoryReducer from "../features/serviceCategory/sCategorySlice";
 import serviceReducer from "../features/service/serviceSlice";
 import hospitalReducer from "../features/hospital/hospitalSlice";
+import timeReducer from "../features/time/timeSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     sCategory: serviceCategoryReducer,
     service: serviceReducer,
     hospital: hospitalReducer,
+    time: timeReducer,
   },
 });

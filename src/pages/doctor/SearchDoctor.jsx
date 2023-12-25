@@ -44,19 +44,7 @@ const SearchDoctor = () => {
 
   const data1 = [];
 
-  const formik = useFormik({
-    initialValues: {
-      doctorName: "",
-      category: "",
-      minFee: "",
-      maxFee: "",
-      selectAppointmentDay: "",
-    },
-    // validationSchema: schema,
-    // onSubmit: (values) => {
-    //   console.log(values);
-    // },
-  });
+
 
   return (
     <div>
@@ -67,9 +55,7 @@ const SearchDoctor = () => {
             type="text"
             label="Doctor Name "
             name="doctorName"
-            // onChng={formik.handleChange("doctorName")}
-            // onBlr={formik.handleBlur("doctorName")}
-            // val={formik.values.doctorName}
+           
           />
           {/* <div className="error">
             {formik.touched.doctorName && formik.errors.doctorName}
@@ -80,9 +66,7 @@ const SearchDoctor = () => {
             type="text"
             label="category"
             name="category"
-            // onChng={formik.handleChange("doctorName")}
-            // onBlr={formik.handleBlur("doctorName")}
-            // val={formik.values.doctorName}
+            
           />
           {/* <div className="error">
             {formik.touched.doctorName && formik.errors.doctorName}
@@ -93,9 +77,7 @@ const SearchDoctor = () => {
             type="text"
             label="Min Fee "
             name="minFee"
-            // onChng={formik.handleChange("doctorName")}
-            // onBlr={formik.handleBlur("doctorName")}
-            // val={formik.values.doctorName}
+            
           />
           {/* <div className="error">
             {formik.touched.doctorName && formik.errors.doctorName}
@@ -106,38 +88,14 @@ const SearchDoctor = () => {
             type="text"
             label="Max Fee "
             name="maxFee"
-            // onChng={formik.handleChange("doctorName")}
-            // onBlr={formik.handleBlur("doctorName")}
-            // val={formik.values.doctorName}
+            
           />
           {/* <div className="error">
             {formik.touched.doctorName && formik.errors.doctorName}
           </div> */}
         </div>
 
-        <div className="col-2">
-          <div class="dropdown">
-            <CustomInput
-              className="dropdown-toggle"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              type="button"
-              label="Select Appointment Day "
-              name="maxFee"
-              // onChng={formik.handleChange("doctorName")}
-              // onBlr={formik.handleBlur("doctorName")}
-              // val={formik.values.doctorName}
-            >
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Action
-                  </a>
-                </li>
-              </ul>
-            </CustomInput>
-          </div>
-        </div>
+        
         <div className="col-2 " style={{ marginTop: "15px" }}>
           <button
             className="btn btn-lg btn-primary"

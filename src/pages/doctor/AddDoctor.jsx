@@ -277,6 +277,7 @@ const AddDoctor = () => {
                         onChange={(e) => formik.setFieldValue("experties", e)}
                         className="form-control rounded p-3 mb-3"
                         multi
+                        value={[formik.values.experties]}
                         options={DoctorCategory}
                       />
                       <div className="error">

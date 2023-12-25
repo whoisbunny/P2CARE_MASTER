@@ -56,7 +56,7 @@ export const updateDoctor = createAsyncThunk(
 export const resetState = createAction("Reset_all");
 
 export const doctorSlice = createSlice({
-  name: "doctorCategory",
+  name: "doctor",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

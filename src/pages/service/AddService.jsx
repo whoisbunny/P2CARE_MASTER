@@ -267,7 +267,7 @@ const AddService = () => {
                   onBlur={formik.handleBlur("category")}
                   value={formik.values.category}
                 >
-                  <option selected>Select Category</option>
+                  <option value={''}>Select Category</option>
                   {cat?.map((e, i) => {
                     return (
                       <>

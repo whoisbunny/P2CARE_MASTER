@@ -55,10 +55,15 @@ const SearchService = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (search !== undefined || search !== "") {
+    if (search ) {
       axios
         .get(`http://localhost:3001/service/searchservice/${search}`)
         .then((e) => setSearchResult(e.data?.data));
+    }
+    else {
+         axios
+           .get(`http://localhost:3001/service/allservice`)
+           .then((e) => setSearchResult(e.data?.data));
     }
   }, [search]);
 

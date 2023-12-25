@@ -28,11 +28,21 @@ export const getAllHospitals = createAsyncThunk(
     }
   }
 );
+export const deleteAHospital = createAsyncThunk(
+  "hospital/delete",
+  async ( thunkAPI) => {
+    try {
+      return await hospitalService.deleteHospital();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const resetState = createAction("Reset_all");
 
 export const hospitalSlice = createSlice({
-  name: "doctorCategory",
+  name: "hospital",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -64,9 +74,26 @@ export const hospitalSlice = createSlice({
         state.isError = false;
 
         state.AllHospitals = action.payload?.data;
-        
       })
       .addCase(getAllHospitals.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(deleteAHospital.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteAHospital.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+
+        state.DeletedHospital = action.payload?.data;
+        if(state.isSuccess === true) {
+          toast.success('Successfully deleted')
+        }
+      })
+      .addCase(deleteAHospital.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

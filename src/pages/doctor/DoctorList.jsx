@@ -141,7 +141,7 @@ const DoctorList = () => {
            performAction={() => {
              deleteDoctor(delDoc);
            }}
-         title="Are you sure you want to delete this blog category?"
+         title="Are you sure you want to remove this doctor ?"
        />
      </div>
    );

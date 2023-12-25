@@ -83,7 +83,7 @@ const MainLayout = () => {
                     label: "Doctor Category",
                   },
                   {
-                    key: "doctor-booking",
+                    key: "doctor-booking-list",
                     label: "Booking Time",
                   },
                   {
