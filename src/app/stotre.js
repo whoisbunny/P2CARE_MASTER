@@ -10,6 +10,7 @@ import timeReducer from "../features/time/timeSlice";
 import blogCategoryReducer from "../features/blogCategory/BlogCategorySlice";
 import blogReducer from "../features/blog/blogSlice";
 import testimonialReducer from "../features/testimonial/testimonialSlice";
+import assignReducer from "../features/assingn/assignSlice";
 
 export const store = configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export const store = configureStore({
     blogCategory: blogCategoryReducer,
     blog: blogReducer,
     testimonial: testimonialReducer,
+    assign: assignReducer,
   },
 });

@@ -1,23 +1,33 @@
 import { useFormik } from "formik";
 import CustomInput from "../../components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllHospitals, resetState } from "../../features/hospital/hospitalSlice";
+import {
+  getAllHospitals,
+  resetState,
+} from "../../features/hospital/hospitalSlice";
 import { useEffect } from "react";
 import { allDoctorCategory } from "../../features/dCategory/dCategorySlice";
 import { getAllDoctors } from "../../features/doctor/doctorSlice";
+import axios from "axios";
+import { config } from "../../utils/axiosConfig";
+import toast from "react-hot-toast";
+import { addNewAssign, getAllAssign } from "../../features/assing/assignSlice";
+import { Link } from "react-router-dom";
 
 const AssignDoctor = () => {
-  const dispatch = useDispatch()
- useEffect(() => {
+  const dispatch = useDispatch();
+  useEffect(() => {
     dispatch(getAllHospitals());
     dispatch(allDoctorCategory());
     dispatch(getAllDoctors());
+    // dispatch(getAllAssign());
+
 
     dispatch(resetState());
   }, []);
-  const HospitalState = useSelector((state)=> state.hospital.AllHospitals)
+  const HospitalState = useSelector((state) => state.hospital.AllHospitals);
   const dCategory = useSelector((state) => state?.dCategory?.dCategories);
-    const allDoctors = useSelector((state) => state?.doctor?.allDoctors);
+  const allDoctors = useSelector((state) => state?.doctor?.allDoctors);
 
   const formik = useFormik({
     initialValues: {
@@ -26,10 +36,9 @@ const AssignDoctor = () => {
       category: "",
       amount: "",
     },
-    onSubmit:(values) => {
-      console.log(values);
-
-    }
+    onSubmit:async (values) => {
+      dispatch(addNewAssign(values));
+    },
   });
   return (
     <>
@@ -37,7 +46,9 @@ const AssignDoctor = () => {
         <div className="row">
           <div className="d-flex justify-content-between  py-3">
             <h3>Assign Doctor</h3>
-            <button className="btn-primary btn"> All hospitals</button>
+            <Link to={`/admin/all-hospital`} className="btn btn-primary mb-3">
+              Add New
+            </Link>{" "}
           </div>
 
           <form
@@ -81,7 +92,6 @@ const AssignDoctor = () => {
               >
                 <option value="">Select category</option>
                 {dCategory?.map((e, i) => {
-
                   return (
                     <>
                       <option key={i} value={e?.name}>
@@ -107,7 +117,6 @@ const AssignDoctor = () => {
               >
                 <option value="">Select doctor</option>
                 {allDoctors?.map((e, i) => {
-
                   return (
                     <>
                       <option key={i} value={e?.doctorName}>
@@ -136,11 +145,11 @@ const AssignDoctor = () => {
               </div>
             </div>
 
-                <div className="form-group">
-                  <button className="btn btn-primary" type="submit">submit</button>
-                </div>
-
-
+            <div className="form-group">
+              <button className="btn btn-primary" type="submit">
+                submit
+              </button>
+            </div>
           </form>
         </div>
       </div>

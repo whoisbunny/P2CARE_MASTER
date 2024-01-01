@@ -1,22 +1,13 @@
-// const HospitalList = () => {
-//   return (
-//     <>
 
-//     </>
-//   )
-// }
 
-// export default HospitalList
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import CustomModal from "../../components/CustomModal";
 import { useEffect, useState } from "react";
 import { Table } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { IoArrowBack } from "react-icons/io5";
 import {
   deleteAHospital,
   getAllHospitals,
@@ -61,7 +52,6 @@ const columns = [
 ];
 
 const BookDoctorList = () => {
-  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getAllHospitals());
     dispatch(resetState());
