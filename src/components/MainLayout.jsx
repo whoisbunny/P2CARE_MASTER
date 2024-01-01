@@ -1,33 +1,32 @@
 import { useState } from "react";
-import { useNavigate, Outlet, Link } from "react-router-dom";
-import { IoIosNotifications } from "react-icons/io";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { useNavigate, Outlet, Link, useLocation } from "react-router-dom";
 import { AiOutlineDashboard, AiOutlineUser } from "react-icons/ai";
-
 import { PiGearBold, PiTimerBold } from "react-icons/pi";
-import { FaBloggerB, FaClipboardList } from "react-icons/fa";
-import { Layout, Menu, Button, theme, Flex } from "antd";
+import { FaBloggerB, FaClipboardList, FaHouseUser } from "react-icons/fa";
+import { Layout, Menu, theme, Flex } from "antd";
+import p2c_logo from "../assets/images/logo/p2c_logo.jpg";
 
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
-  
-
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
   return (
     <>
       <Layout>
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo">
-            <h2 className="py-3 fs-5 text-white text-center">
+          <div className="logo w-25 ">
+            <img className="img-fluid" src={p2c_logo} alt="Logo" />
+            {/* <h2 className="py-3 fs-5 text-white text-center">
               {" "}
               <span className="sm-logo">P2C</span>
               <span className="lg-logo">P2CARE</span>
-            </h2>
+            </h2> */}
           </div>
           <Menu
             theme="dark"
@@ -83,7 +82,7 @@ const MainLayout = () => {
                     label: "Doctor Category",
                   },
                   {
-                    key: "doctor-booking-list",
+                    key: "doctor-booking",
                     label: "Booking Time",
                   },
                   {
@@ -104,7 +103,7 @@ const MainLayout = () => {
                   },
                   {
                     key: "assign-doctor",
-                    label: "Assign Doctor",
+                    label: "Assign Doctor In Hospital",
                   },
                   {
                     key: "blog-hospital",
@@ -137,11 +136,15 @@ const MainLayout = () => {
                     key: "service-categiry-list",
                     label: "Service Categories",
                   },
+                  {
+                    key: "search-service",
+                    label: "Search Services",
+                  },
                 ],
               },
 
               {
-                key: "blogs",
+                key: "blog",
                 icon: <FaBloggerB className="fs-4" />,
                 label: "Blog",
                 children: [
@@ -150,98 +153,100 @@ const MainLayout = () => {
                     label: "All Blogs",
                   },
                   {
-                    key: "blog-cat-list",
+                    key: "blog-cat",
                     label: "Category",
                   },
                   {
-                    key: "blog",
+                    key: "add-blog",
                     label: "Add New Post",
                   },
                 ],
               },
+              // {
+              //   key: "profile",
+              //   icon: <FaHouseUser className="fs-4" />,
+              //   label: "Profile",
+              //   children: [
+              //     {
+              //       key: "doctorProfile",
+              //       label: "Doctor Profile",
+              //     },
+              //     {
+              //       key: "hospitalProfile",
+              //       label: "Hospital Profile",
+              //     },
+              //   ],
+              // },
               {
-                key: "testimonial-list",
+                key: "testimonial",
                 icon: <FaClipboardList className="fs-4" />,
                 label: "Testimonials",
               },
             ]}
           />
         </Sider>
+
         <Layout>
           <Header
-            className="d-flex justify-content-between ps-1 pe-5"
+            className="ps-5"
             style={{
               padding: 0,
               background: colorBgContainer,
             }}
           >
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
-            />
-            <div className="d-flex gap-4 align-items-center">
-              <div className="position-relative">
-                <IoIosNotifications className="fs-4" />
-                <span className="badge bg-warning rounded-circle p-1 position-absolute">
-                  3
-                </span>
-              </div>
-
-              <div className="d-flex gap-3 align-items-center dropdown">
-                {/* <div>
-                  <img
-                    width={32}
-                    height={32}
-                    src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
-                    alt=""
-                  />
-                </div> */}
-                <div
-                  className="px-2"
-                  role="button"
-                  id="dropdownMenuLink"
-                  data-bs-toggle="dropdown"
+            <nav className="navbar navbar-expand-lg ">
+              <h4 className="d-flex">
+                {currentPath.replace("/admin", "Home")}
+              </h4>
+              <div className="container-fluid offset-md-7">
+                <button
+                  className="navbar-toggler "
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarNavDarkDropdown"
+                  aria-controls="navbarNavDarkDropdown"
                   aria-expanded="false"
+                  aria-label="Toggle navigation"
                 >
-                  <img
-                    width={32}
-                    height={32}
-                    src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
-                    alt=""
-                  />
-                </div>
+                  <span className="navbar-toggler-icon"></span>
+                </button>
                 <div
-                  className="dropdown-menu"
-                  aria-labelledby="dropdownMenuLink"
+                  className="collapse navbar-collapse"
+                  id="navbarNavDarkDropdown"
                 >
-                  <li>
-                    <Link
-                      className="dropdown-item py-1 mb-1"
-                      style={{ height: "auto", lineHeight: "20px" }}
-                      to="/"
-                    >
-                      View Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="dropdown-item py-1 mb-1"
-                      style={{ height: "auto", lineHeight: "20px" }}
-                      to="/"
-                    >
-                      Signout
-                    </Link>
-                  </li>
+                  <ul className="navbar-nav">
+                    <li className="nav-item dropdown">
+                      <button
+                        className="btn btn-success dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Admin
+                      </button>
+                      <ul className="dropdown-menu dropdown-menu">
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Profile
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Logout
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Change Password
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
+            </nav>
           </Header>
+
           <Content
             style={{
               margin: "24px 16px",
