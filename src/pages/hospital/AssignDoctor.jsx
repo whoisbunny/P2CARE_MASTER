@@ -11,7 +11,7 @@ import { getAllDoctors } from "../../features/doctor/doctorSlice";
 import axios from "axios";
 import { config } from "../../utils/axiosConfig";
 import toast from "react-hot-toast";
-import { addNewAssign, getAllAssign } from "../../features/assing/assignSlice";
+import { addNewAssign, getAllAssign } from "../../features/assingn/assignSlice";
 import { Link } from "react-router-dom";
 
 const AssignDoctor = () => {

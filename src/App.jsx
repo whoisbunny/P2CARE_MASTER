@@ -1,6 +1,5 @@
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./pages/Login";
 import MainLayout from "./components/MainLayout";
@@ -18,11 +17,11 @@ import AddDoctorCategory from "./pages/doctor/AddDoctorCategory";
 import BookDoctor from "./pages/doctor/BookDoctor";
 import ReviewDoctor from "./pages/ReviewDoctor";
 
-import BlogList from "./pages/BlogList";
-import BlogCategory from "./pages/BlogCategory";
-import AddBlog from "./pages/AddBlog";
-import BlogCatList from "./pages/BlogCatList";
-import AddBlogCategory from "./pages/BlogCategory";
+import BlogList from "./pages/blog/BlogList";
+
+import AddBlog from "./pages/blog/AddBlog";
+import BlogCatList from "./pages/blog/BlogCatList";
+import AddBlogCategory from "./pages/blog/AddBlogCategory";
 
 import HospitalList from "./pages/hospital/HospitalList";
 import HospitalBlog from "./pages/hospital/HospitalBlog";
@@ -33,15 +32,14 @@ import Faq from "./pages/hospital/Faq";
 
 import ServiceList from "./pages/service/ServiceList";
 import AddService from "./pages/service/AddService";
-import SearchService from "./pages/service/SearchService";
 import ServiceCategoryList from "./pages/service/ServiceCategoryList";
 import AddServiceCategory from "./pages/service/AddServiceCategory";
 
 import DoctorProfile from "./pages/profile/DoctorProfile";
 import HospitalProfile from "./pages/profile/HospitalProfile";
 
-import Testimonial from "./pages/testimonials/testimonial";
-import AddTestimonial from "./pages/testimonials/AddTestimonial";
+import Testimonial from "./pages/testimonials/TestimonialList";
+import AddTestimonial from "./pages/testimonials/AddTestimonials";
 
 function App() {
   return (
@@ -95,7 +93,6 @@ function App() {
             <Route path="service" element={<AddService />} />
             <Route path="service/:id" element={<AddService />} />
             <Route path="service-list" element={<ServiceList />} />
-            <Route path="search-service" element={<SearchService />} />
             <Route
               path="service-categiry-list"
               element={<ServiceCategoryList />}

@@ -3,9 +3,9 @@ import { useNavigate, Outlet, Link, useLocation } from "react-router-dom";
 import { AiOutlineDashboard, AiOutlineUser } from "react-icons/ai";
 import { PiGearBold, PiTimerBold } from "react-icons/pi";
 import { FaBloggerB, FaClipboardList, FaHouseUser } from "react-icons/fa";
-import { Layout, Menu, theme, Flex } from "antd";
+import { Layout, Menu, theme, Flex, Button } from "antd";
 import p2c_logo from "../assets/images/logo/p2c_logo.jpg";
-
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -20,13 +20,16 @@ const MainLayout = () => {
     <>
       <Layout>
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo w-25 ">
-            <img className="img-fluid" src={p2c_logo} alt="Logo" />
-            {/* <h2 className="py-3 fs-5 text-white text-center">
+          <div className="logo  ">
+            {/* <h2 className="py-3 fs-5 text-white text-center"> */}{" "}
+            <span className="sm-logo">
               {" "}
-              <span className="sm-logo">P2C</span>
-              <span className="lg-logo">P2CARE</span>
-            </h2> */}
+              <img className=" sm-logoImg " src={p2c_logo} alt="Logo" />
+            </span>
+            <span className="lg-logo">
+              <img className=" logoImg " src={p2c_logo} alt="Logo" />
+            </span>
+            {/* </h2> */}
           </div>
           <Menu
             theme="dark"
@@ -188,14 +191,20 @@ const MainLayout = () => {
 
         <Layout>
           <Header
-            className="ps-5"
+            className="ps-5 "
             style={{
               padding: 0,
               background: colorBgContainer,
             }}
           >
-            <nav className="navbar navbar-expand-lg ">
-              <h4 className="d-flex">
+            {" "}
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+            />
+            <nav className="navbar navbar-expand-lg d-flex align-items-center ">
+              <h4 className="d-flex    mb-4" style={{ width: "105rem" }}>
                 {currentPath.replace("/admin", "Home")}
               </h4>
               <div className="container-fluid offset-md-7">
@@ -211,13 +220,13 @@ const MainLayout = () => {
                   <span className="navbar-toggler-icon"></span>
                 </button>
                 <div
-                  className="collapse navbar-collapse"
+                  className="collapse navbar-collapse "
                   id="navbarNavDarkDropdown"
                 >
-                  <ul className="navbar-nav">
+                  <ul className="navbar-nav  ">
                     <li className="nav-item dropdown">
                       <button
-                        className="btn btn-success dropdown-toggle"
+                        className="btn btn-success dropdown-toggle mb-4"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >

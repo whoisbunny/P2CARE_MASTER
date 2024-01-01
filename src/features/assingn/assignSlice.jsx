@@ -72,4 +72,4 @@ export const assignSlice = createSlice({
       });
   },
 });
-export default serviceSlice.reducer;
+export default assignSlice.reducer;
