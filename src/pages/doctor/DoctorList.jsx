@@ -1,11 +1,12 @@
 import { Table } from "antd";
-import React, { useEffect, useState } from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { useEffect, useState } from "react";
+import { AiFillDelete, AiOutlineFileSearch } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import CustomModal from "../../components/CustomModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteADoctor, getAllDoctors, resetState } from "../../features/doctor/doctorSlice";
+import axios from "axios";
 
 const columns = [
   {
@@ -52,19 +53,31 @@ const columns = [
 ];
 
 const DoctorList = () => {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [delDoc, setdelDoc] = useState('')
+  
 
 
-  const allDoctors = useSelector((state) => state?.doctor?.allDoctors);
+  // useEffect(() => {
+  //   dispatch(getAllDoctors());
+  //   dispatch(resetState());
 
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(getAllDoctors());
-    dispatch(resetState());
+  // }, []);
 
-  }, []);
-   const [open, setOpen] = useState(false);
-   const [delDoc, setdelDoc] = useState('')
-
+ useEffect(() => {
+   if (search) {
+     axios
+       .get(`http://localhost:3001/doctor/searchdoctor/${search}`)
+       .then((e) => setSearchResult(e.data?.data));
+   } else {
+     axios
+       .get(`http://localhost:3001/doctor/alldoctor`)
+       .then((e) => setSearchResult(e.data?.data));
+   }
+ }, [search, delDoc]);
 
 
 
@@ -80,40 +93,40 @@ const DoctorList = () => {
 
 
    const data1 = [];
-   for (let i = 0; i < allDoctors?.length; i++) {
+   for (let i = 0; i < searchResult?.length; i++) {
      data1.push({
        key: i + 1,
-       code: allDoctors[i]?.doctorCode,
-       name: allDoctors[i]?.doctorName,
+       code: searchResult[i]?.doctorCode,
+       name: searchResult[i]?.doctorName,
        image: (
          <>
-           <img src={allDoctors[i]?.image} alt="" />
+           <img src={searchResult[i]?.image} alt="" />
          </>
        ),
-       price: allDoctors[i]?.price,
-       appointmentStatus: allDoctors[i]?.availabileforappointment ? (
+       price: searchResult[i]?.price,
+       appointmentStatus: searchResult[i]?.availabileforappointment ? (
          <div className="btn btn-success">Yes</div>
        ) : (
          <div className="btn btn-danger">No</div>
        ),
        status: (
          <>
-           <div className="btn btn-outline-primary">
-             {allDoctors[i]?.status}
+           <div className="btn btn-primary uppercase">
+             {searchResult[i]?.status}
            </div>
          </>
        ),
        action: (
          <>
            <Link
-             to={`/admin/doctor/${allDoctors[i]?._id}`}
+             to={`/admin/doctor/${searchResult[i]?._id}`}
              className=" fs-3 text-danger"
            >
              <BiEdit />
            </Link>
            <button
              className="ms-3 fs-3 text-danger bg-transparent border-0"
-             onClick={() => showModal(allDoctors[i]?._id)}
+             onClick={() => showModal(searchResult[i]?._id)}
            >
              <AiFillDelete />
            </button>
@@ -131,6 +144,19 @@ const DoctorList = () => {
    };
    return (
      <div>
+       <div className="input-group mb-3 px-4  w-25 float-end  ">
+         <span className="input-group-text" id="basic-addon1">
+           <AiOutlineFileSearch />
+         </span>
+         <input
+           type="search"
+           className="form-control"
+           placeholder="Sesrch..."
+           aria-label="Username"
+           onChange={(e) => setSearch(e.target.value)}
+           aria-describedby="basic-addon1"
+         />
+       </div>
        <h3 className="mb-4 title px-5">All Doctors</h3>
        <div>
          <Table columns={columns} dataSource={data1} />
@@ -138,9 +164,9 @@ const DoctorList = () => {
        <CustomModal
          hideModal={hideModal}
          open={open}
-           performAction={() => {
-             deleteDoctor(delDoc);
-           }}
+         performAction={() => {
+           deleteDoctor(delDoc);
+         }}
          title="Are you sure you want to remove this doctor ?"
        />
      </div>

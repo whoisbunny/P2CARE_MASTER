@@ -116,6 +116,7 @@ export const doctorSlice = createSlice({
       builder.addCase(updateDoctor.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
 
         state.updatedDoctor = action.payload?.data;
         if (state.isSuccess === true) {

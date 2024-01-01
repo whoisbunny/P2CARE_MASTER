@@ -180,7 +180,7 @@ const AddDoctor = () => {
               </h3>
               <div>
                 <form onSubmit={formik.handleSubmit} className="mb-4 ">
-                  <div className="row align-items-center justify-content-center">
+                  <div className="row align-items-center ">
                     <div className="col-6">
                       <CustomInput
                         type="text"
@@ -400,6 +400,7 @@ const AddDoctor = () => {
                                         {i > 0 && (
                                           <div className="float-end" key={i}>
                                             <button
+                                              type="button"
                                               className="btn btn-danger"
                                               onClick={() =>
                                                 arrayHelpers.remove(i)
@@ -428,10 +429,11 @@ const AddDoctor = () => {
                               </div>
                               <div className="form-group  float-end">
                                 <button
+                                  type="button"
                                   className="btn btn-primary"
                                   onClick={() =>
                                     arrayHelpers.insert(
-                                      formik.values.experienceInfo.length + 1,
+                                      formik.values.experienceInfo?.length + 1,
                                       []
                                     )
                                   }
@@ -467,6 +469,7 @@ const AddDoctor = () => {
                                           {i > 0 && (
                                             <div className="float-end" key={i}>
                                               <button
+                                                type="button"
                                                 className="btn btn-danger"
                                                 onClick={() =>
                                                   arrayHelpers.remove(i)
@@ -497,10 +500,11 @@ const AddDoctor = () => {
                               <div className="form-group  float-end">
                                 <button
                                   className="btn btn-primary"
+                                  type="button"
                                   onClick={() =>
                                     arrayHelpers.insert(
                                       formik.values.awardAndAchivementsInfo
-                                        .length + 1,
+                                        ?.length + 1,
                                       []
                                     )
                                   }
@@ -537,6 +541,7 @@ const AddDoctor = () => {
                                           {i > 0 && (
                                             <div className="float-end" key={i}>
                                               <button
+                                                type="button"
                                                 className="btn btn-danger"
                                                 onClick={() =>
                                                   arrayHelpers.remove(i)
@@ -567,9 +572,10 @@ const AddDoctor = () => {
                               <div className="form-group  float-end">
                                 <button
                                   className="btn btn-primary"
+                                  type="button"
                                   onClick={() =>
                                     arrayHelpers.insert(
-                                      formik.values.talkPublicationInfo.length +
+                                      formik.values.talkPublicationInfo?.length +
                                         1,
                                       []
                                     )
@@ -605,6 +611,7 @@ const AddDoctor = () => {
                                         {i > 0 && (
                                           <div className="float-end" key={i}>
                                             <button
+                                              type="button"
                                               className="btn btn-danger"
                                               onClick={() =>
                                                 arrayHelpers.remove(i)
@@ -633,10 +640,11 @@ const AddDoctor = () => {
                               </div>
                               <div className="form-group  float-end">
                                 <button
+                                  type="button"
                                   className="btn btn-primary"
                                   onClick={() =>
                                     arrayHelpers.insert(
-                                      formik.values.languageInfo.length + 1,
+                                      formik.values.languageInfo?.length + 1,
                                       []
                                     )
                                   }
@@ -671,6 +679,7 @@ const AddDoctor = () => {
                                         {i > 0 && (
                                           <div className="float-end" key={i}>
                                             <button
+                                              type="button"
                                               className="btn btn-danger"
                                               onClick={() =>
                                                 arrayHelpers.remove(i)
@@ -699,10 +708,11 @@ const AddDoctor = () => {
                               </div>
                               <div className="form-group  float-end">
                                 <button
+                                  type="button"
                                   className="btn btn-primary"
                                   onClick={() =>
                                     arrayHelpers.insert(
-                                      formik.values.educationInfo.length + 1,
+                                      formik.values.educationInfo?.length + 1,
                                       []
                                     )
                                   }
@@ -737,6 +747,7 @@ const AddDoctor = () => {
                                         {i > 0 && (
                                           <div className="float-end" key={i}>
                                             <button
+                                              type="button"
                                               className="btn btn-danger"
                                               onClick={() =>
                                                 arrayHelpers.remove(i)
@@ -766,9 +777,10 @@ const AddDoctor = () => {
                               <div className="form-group  float-end">
                                 <button
                                   className="btn btn-primary"
+                                  type="button"
                                   onClick={() =>
                                     arrayHelpers.insert(
-                                      formik.values.fellowShipInfo.length + 1,
+                                      formik.values.fellowShipInfo?.length + 1,
                                       []
                                     )
                                   }
@@ -949,6 +961,7 @@ const AddDoctor = () => {
                       </button>
                     </div>
                   </div>
+                  
                 </form>
               </div>
             </div>

@@ -22,8 +22,9 @@ const deleteDoctor = async (id) => {
   return response.data;
 };
 const updateDoctor = async (DrData) => {
+  console.log(DrData);
   const response = axios.put(
-    `${baseUrl}doctorcategory/updatedoctor/${DrData.id}`,
+    `${baseUrl}doctor/updatedoctor/${DrData.id}`,
     DrData.formData,
     config
   );

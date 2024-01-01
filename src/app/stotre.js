@@ -7,6 +7,9 @@ import serviceCategoryReducer from "../features/serviceCategory/sCategorySlice";
 import serviceReducer from "../features/service/serviceSlice";
 import hospitalReducer from "../features/hospital/hospitalSlice";
 import timeReducer from "../features/time/timeSlice";
+import blogCategoryReducer from "../features/blogCategory/BlogCategorySlice";
+import blogReducer from "../features/blog/blogSlice";
+import testimonialReducer from "../features/testimonial/testimonialSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +21,8 @@ export const store = configureStore({
     service: serviceReducer,
     hospital: hospitalReducer,
     time: timeReducer,
+    blogCategory: blogCategoryReducer,
+    blog: blogReducer,
+    testimonial: testimonialReducer,
   },
 });

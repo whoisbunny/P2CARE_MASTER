@@ -30,9 +30,19 @@ export const getAllHospitals = createAsyncThunk(
 );
 export const deleteAHospital = createAsyncThunk(
   "hospital/delete",
-  async ( thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
-      return await hospitalService.deleteHospital();
+      return await hospitalService.deleteHospital(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const updateAHospital = createAsyncThunk(
+  "hospital/update",
+  async (DATA, thunkAPI) => {
+    try {
+      return await hospitalService.uppdateHospital(DATA);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -89,11 +99,29 @@ export const hospitalSlice = createSlice({
         state.isError = false;
 
         state.DeletedHospital = action.payload?.data;
-        if(state.isSuccess === true) {
-          toast.success('Successfully deleted')
+        if (state.isSuccess === true) {
+          toast.success("Successfully deleted");
         }
       })
       .addCase(deleteAHospital.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      })
+      .addCase(updateAHospital.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateAHospital.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+
+        state.UpdatedHospital = action.payload?.data;
+        if (state.isSuccess === true) {
+          toast.success("Successfully Updated");
+        }
+      })
+      .addCase(updateAHospital.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

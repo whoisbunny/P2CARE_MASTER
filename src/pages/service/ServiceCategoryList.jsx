@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiOutlineFileSearch } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import CustomModal from "../../components/CustomModal";
 import { useEffect, useState } from "react";
-import { useFormik } from "formik";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,6 +10,7 @@ import {
   deleteServiceCategory,
   resetState,
 } from "../../features/serviceCategory/sCategorySlice";
+import axios from "axios";
 
 const columns = [
   {
@@ -50,13 +50,29 @@ const ServiceCategoryList = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [delCatId, setDelCatId] = useState("");
-
+const [search, setSearch] = useState("");
+const [searchResult, setSearchResult] = useState([]);
+  
   useEffect(() => {
     dispatch(allServiceCategory());
     dispatch(resetState());
-  }, []);
+  }, [delCatId]);
 
-  const scatData = useSelector((state)=>state.sCategory?.sCategories)
+
+  useEffect(() => {
+    if (search) {
+      axios
+        .get(`http://localhost:3001/servicecategory/searchcategory/${search}`)
+        .then((e) => setSearchResult(e.data?.data));
+    } else {
+      axios
+        .get(`http://localhost:3001/servicecategory/allcategory`)
+        .then((e) => setSearchResult(e.data?.data));
+    }
+  }, [search, delCatId]);
+
+  
+
 const deleteSCategory = (e) => {
   dispatch(deleteServiceCategory(e));
   setTimeout(() => {
@@ -69,31 +85,33 @@ const deleteSCategory = (e) => {
   };
 
   const data1 = [];
-  for (let i = 0; i < scatData?.length; i++) {
+  for (let i = 0; i < searchResult?.length; i++) {
     data1.push({
       key: i + 1,
-      name: scatData[i].Name,
-      forservice: scatData[i].ForService,
+      name: searchResult[i].Name,
+      forservice: searchResult[i].ForService,
       icon: (
         <>
-          <img src={scatData[i]?.image} alt={scatData[i]?.Name} />
+          <img src={searchResult[i]?.image} alt={searchResult[i]?.Name} />
         </>
       ),
       status: (
         <>
-          <div className="btn btn-outline-primary">{scatData[i]?.status}</div>
+          <div className="btn btn-outline-primary">
+            {searchResult[i]?.status}
+          </div>
         </>
       ),
       action: (
         <>
           <Link
             className=" fs-3 text-danger"
-            to={`/admin/service-categiry/${scatData[i]?._id}`}
+            to={`/admin/service-categiry/${searchResult[i]?._id}`}
           >
             <BiEdit />
           </Link>
           <button
-            onClick={() => showModal(scatData[i]._id)}
+            onClick={() => showModal(searchResult[i]._id)}
             className="ms-3 fs-3 text-danger bg-transparent border-0"
           >
             <AiFillDelete />
@@ -107,13 +125,7 @@ const deleteSCategory = (e) => {
     setOpen(true);
     setDelCatId(e);
   };
-  const formik = useFormik({
-    initialValues: {},
-    // validationSchema: schema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  
 
   return (
     <div className="mt-3">
@@ -123,44 +135,20 @@ const deleteSCategory = (e) => {
           Add New Items
         </Link>
       </div>
-      <div className="dropdown my-3">
-        <button
-          className="btn btn-outlined border col-md-2 dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          Bulk Action
-        </button>
-        <ul className="dropdown-menu">
-          <li>
-            <a className="dropdown-item" href="#">
-              Something else here
-            </a>
-          </li>
-        </ul>{" "}
-        <button className="btn btn-primary">Apply</button>
-      </div>
-      <div
-        className="header d-inline-flex mb-3"
-        style={{ display: "inline-block" }}
-      >
-        <h6 className="text-responsive mt-2">Show</h6>
-        {/* <div className="my-3"> */}
-        <form className="d-flex mb-2" role="search">
-          <h6 className="form-label mt-2" style={{ marginLeft: "55rem" }}>
-            Search:
-          </h6>
+      
+        <div className="input-group mb-3 px-4  w-25 float-end  ">
+          <span className="input-group-text" id="basic-addon1">
+            <AiOutlineFileSearch />
+          </span>
           <input
-            className="form-control"
-            style={{ marginLeft: "5px" }}
             type="search"
-            placeholder="Search"
-            aria-label="Search"
+            className="form-control"
+            placeholder="Sesrch..."
+            aria-label="Username"
+            onChange={(e) => setSearch(e.target.value)}
+            aria-describedby="basic-addon1"
           />
-        </form>
-        {/* </div> */}
-      </div>
+        </div>
       <div>
         <Table
           className="table table-responsive"

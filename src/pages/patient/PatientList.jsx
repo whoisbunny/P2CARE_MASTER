@@ -1,11 +1,13 @@
 import { Table } from "antd";
 import { useEffect, useState } from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiOutlineFileSearch } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import CustomModal from "../../components/CustomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAPatient, getPatients, resetState } from "../../features/patient/patientSlice";
+import axios from "axios";
+import { config } from "../../utils/axiosConfig";
 
 const columns = [
   {
@@ -39,15 +41,33 @@ const PatientList = () => {
   const [patientId, setpatientId] = useState("");
   const patientState = useSelector((state) => state.patient?.Patients);
   const dispatch = useDispatch();
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
  
 
   useEffect(() => {
 
-    dispatch(resetState());
     dispatch(getPatients());
+    dispatch(resetState());
   }, []);
 
 
+  
+  useEffect(() => {
+    if (search) {
+      axios
+        .get(`http://localhost:3001/patient/searchpatient/${search}`)
+        .then((e) => setSearchResult(e.data?.data));
+    } else {
+      axios
+        .get(`http://localhost:3001/patient/allpatient`,config)
+        .then((e) => setSearchResult(e.data?.data));
+    }
+  }, [search]);
+
+  console.log(searchResult);
+  console.log(patientState);
+  
 
   const showModal = (e) => {
     setOpen(true);
@@ -59,22 +79,22 @@ const PatientList = () => {
   };
 
   const data1 = [];
-  for (let i = 0; i < patientState?.length; i++) {
+  for (let i = 0; i < searchResult?.length; i++) {
     data1.push({
       key: i + 1,
-      name: patientState[i]?.name,
-      email: patientState[i]?.email,
-      username: patientState[i]?.username,
+      name: searchResult[i]?.name,
+      email: searchResult[i]?.email,
+      username: searchResult[i]?.username,
       action: (
         <>
           <Link
-            to={`/admin/patient/${patientState[i]._id}`}
+            to={`/admin/patient/${searchResult[i]._id}`}
             className=" fs-3 text-danger"
           >
             <BiEdit />
           </Link>
           <button
-            onClick={() => showModal(patientState[i]?._id)}
+            onClick={() => showModal(searchResult[i]?._id)}
             className="ms-3 fs-3 text-danger bg-transparent border-0"
           >
             <AiFillDelete />
@@ -94,6 +114,19 @@ const PatientList = () => {
   return (
     <div>
       <h3 className="mb-4 title px-5">All Patients</h3>
+      <div className="input-group mb-3 px-4  w-25 float-end ">
+        <span className="input-group-text" id="basic-addon1">
+          <AiOutlineFileSearch />
+        </span>
+        <input
+          type="search"
+          className="form-control"
+          placeholder="Sesrch..."
+          aria-label="Username"
+          onChange={(e) => setSearch(e.target.value)}
+          aria-describedby="basic-addon1"
+        />
+      </div>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

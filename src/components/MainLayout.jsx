@@ -104,7 +104,7 @@ const MainLayout = () => {
                   },
                   {
                     key: "assign-doctor",
-                    label: "Assign Doctor In Hospital",
+                    label: "Assign Doctor",
                   },
                   {
                     key: "blog-hospital",
@@ -137,15 +137,11 @@ const MainLayout = () => {
                     key: "service-categiry-list",
                     label: "Service Categories",
                   },
-                  {
-                    key: "search-service",
-                    label: "Search Services",
-                  },
                 ],
               },
 
               {
-                key: "blog",
+                key: "blogs",
                 icon: <FaBloggerB className="fs-4" />,
                 label: "Blog",
                 children: [
@@ -154,17 +150,17 @@ const MainLayout = () => {
                     label: "All Blogs",
                   },
                   {
-                    key: "blog-cat",
+                    key: "blog-cat-list",
                     label: "Category",
                   },
                   {
-                    key: "add-blog",
+                    key: "blog",
                     label: "Add New Post",
                   },
                 ],
               },
               {
-                key: "testimonial",
+                key: "testimonial-list",
                 icon: <FaClipboardList className="fs-4" />,
                 label: "Testimonials",
               },
@@ -198,14 +194,14 @@ const MainLayout = () => {
               </div>
 
               <div className="d-flex gap-3 align-items-center dropdown">
-                <div>
+                {/* <div>
                   <img
                     width={32}
                     height={32}
                     src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
                     alt=""
                   />
-                </div>
+                </div> */}
                 <div
                   className="px-2"
                   role="button"
@@ -213,8 +209,12 @@ const MainLayout = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {/* <h5 className="mb-0 px-2 ">{user.firstname}</h5>
-                  <p className="mb-0 px-2">{user.email}</p> */}
+                  <img
+                    width={32}
+                    height={32}
+                    src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
+                    alt=""
+                  />
                 </div>
                 <div
                   className="dropdown-menu"

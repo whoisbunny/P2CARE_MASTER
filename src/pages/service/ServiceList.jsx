@@ -1,11 +1,12 @@
 import { deleteAService, getAllServices, resetState } from "../../features/service/serviceSlice"
 import { Table } from "antd";
 import { useEffect, useState } from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiOutlineFileSearch } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import CustomModal from "../../components/CustomModal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const columns = [
   {
@@ -18,11 +19,7 @@ const columns = [
     sorter: (a, b) => a.name.length - b.name.length,
   },
 
-  {
-    title: "Descriptions",
-    dataIndex: "description",
-    sorter: (a, b) => a.name.length - b.name.length,
-  },
+ 
   {
     title: "Category",
     dataIndex: "category",
@@ -45,16 +42,29 @@ const columns = [
 
 const ServiceList = () => {
   const dispatch = useDispatch()
-  useEffect(() =>{
-    dispatch(getAllServices())
-    dispatch(resetState())
-  },[])
-  
   const [open, setOpen] = useState(false);
   const [delId, setDelId] = useState("");
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  
+  useEffect(() => {
+    dispatch(getAllServices());
+    dispatch(resetState());
+  }, [delId]);
+  
 
-  const Services = useSelector((state) => state?.service?.Services);
 
+  useEffect(() => {
+    if (search) {
+      axios
+        .get(`http://localhost:3001/service/searchservice/${search}`)
+        .then((e) => setSearchResult(e.data?.data));
+    } else {
+      axios
+        .get(`http://localhost:3001/service/allservice`)
+        .then((e) => setSearchResult(e.data?.data));
+    }
+  }, [search, delId]);
 
   
 
@@ -79,29 +89,30 @@ const hideModal = () => {
   };
 
   const data1 = [];
-  for (let i = 0; i < Services?.length; i++) {
+  for (let i = 0; i < searchResult?.length; i++) {
     data1.push({
       key: i + 1,
-      title: Services[i]?.title,
-      description: Services[i]?.description,
-      category: Services[i]?.category,
+      title: searchResult[i]?.title,
+      category: searchResult[i]?.category,
 
-      status:  (
+      status: (
         <>
-          <div className="btn btn-outline-primary">{Services[i]?.status}</div>
+          <div className="btn btn-outline-primary uppercase ">
+            {searchResult[i]?.status}
+          </div>
         </>
       ),
       action: (
         <>
           <div className="d-flex  ">
             <Link
-              to={`/admin/service/${Services[i]._id}`}
+              to={`/admin/service/${searchResult[i]._id}`}
               className=" fs-4 text-danger bg-transparent border-0"
             >
               <BiEdit />
             </Link>
             <button
-              onClick={() => showModal(Services[i]._id)}
+              onClick={() => showModal(searchResult[i]._id)}
               className="ms-3 fs-4 text-danger bg-transparent border-0"
             >
               <AiFillDelete />
@@ -117,12 +128,27 @@ const hideModal = () => {
       <div className="container-xxl mb-4">
         <div className="row ">
           <div className="col-sm-12 mb-4">
-            <div className="card p-5">
-              <h3 className=" text-center mb-3 ">All Services</h3>
-              <div className="d-flex w-full  justify-content-end px-4 py-3">
+            <div className=" p-5">
+
+              <div className="d-flex w-full  justify-content-between  mb-3 py-3">
+              <h3 className="header">All Services</h3>
                 <Link className="btn btn-primary" to={`/admin/service`}>
                   Add New Category
                 </Link>
+              </div>
+
+              <div className="input-group mb-3 px-4  w-25 float-end  ">
+                <span className="input-group-text" id="basic-addon1">
+                  <AiOutlineFileSearch />
+                </span>
+                <input
+                  type="search"
+                  className="form-control"
+                  placeholder="Sesrch..."
+                  aria-label="Username"
+                  onChange={(e) => setSearch(e.target.value)}
+                  aria-describedby="basic-addon1"
+                />
               </div>
               <Table columns={columns} dataSource={data1} />
               <CustomModal

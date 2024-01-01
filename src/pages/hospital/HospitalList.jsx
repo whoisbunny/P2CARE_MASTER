@@ -1,22 +1,12 @@
-
 // const HospitalList = () => {
 //   return (
 //     <>
-    
-    
-    
-    
-    
-    
+
 //     </>
 //   )
 // }
 
 // export default HospitalList
-
-
-
-
 
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
@@ -27,7 +17,12 @@ import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
 import { IoArrowBack } from "react-icons/io5";
-import { deleteAHospital, getAllHospitals, resetState } from "../../features/hospital/hospitalSlice";
+import {
+  deleteAHospital,
+  getAllHospitals,
+  resetState,
+} from "../../features/hospital/hospitalSlice";
+import axios from "axios";
 
 const columns = [
   {
@@ -39,11 +34,11 @@ const columns = [
     dataIndex: "name",
     sorter: (a, b) => a.name.length - b.name.length,
   },
-  // {
-  //   title: "Image",
-  //   dataIndex: "image",
-  //   sorter: (a, b) => a.name.length - b.name.length,
-  // },
+  {
+    title: "Image",
+    dataIndex: "image",
+    sorter: (a, b) => a.name.length - b.name.length,
+  },
   {
     title: "Opning Time",
     dataIndex: "opningTime",
@@ -66,22 +61,37 @@ const columns = [
 ];
 
 const BookDoctorList = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getAllHospitals());
     dispatch(resetState());
   }, []);
-  const hospitalState = useSelector((state) => state.hospital.AllHospitals);
-
+  const [delId, setdelId] = useState("");
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [delId, setdelId] = useState("");
+
+  useEffect(() => {
+    dispatch(getAllHospitals());
+  }, [delId]);
+
+  useEffect(() => {
+    if (search) {
+      axios
+        .get(`http://localhost:3001/hospital/searchhospital/${search}`)
+        .then((e) => setSearchResult(e.data?.data));
+    } else {
+      axios
+        .get(`http://localhost:3001/hospital/allhospital`)
+        .then((e) => setSearchResult(e.data?.data));
+    }
+  }, [search, delId]);
 
   const deleteHosp = (e) => {
     dispatch(deleteAHospital(e));
     setTimeout(() => {
       dispatch(getAllHospitals());
-
     }, 100);
 
     setOpen(false);
@@ -90,19 +100,25 @@ const BookDoctorList = () => {
     setOpen(false);
   };
 
+
+  console.log(searchResult);
   const data1 = [];
-  for (let i = 0; i < hospitalState?.length; i++) {
+  for (let i = 0; i < searchResult?.length; i++) {
     data1.push({
       key: i + 1,
-      name: hospitalState[i].hospitalname,
-      // image: hospitalState[i].,
-      opningTime: hospitalState[i].openingtime,
-      closingTime: hospitalState[i].closingtime,
+      name: searchResult[i].hospitalname,
+      image: (
+        <>
+          <img src={searchResult[i].hospitallogo} alt="img" />
+        </>
+      ),
+      opningTime: searchResult[i].openingtime,
+      closingTime: searchResult[i].closingtime,
 
       status: (
         <>
-          <div className="btn btn-outline-primary">
-            {hospitalState[i]?.status}
+          <div className="btn btn-outline-primary uppercase">
+            {searchResult[i]?.status}
           </div>
         </>
       ),
@@ -110,12 +126,12 @@ const BookDoctorList = () => {
         <>
           <Link
             className=" fs-3 text-danger"
-            to={`/admin/hospital/${hospitalState[i]?._id}`}
+            to={`/admin/hospital/${searchResult[i]?._id}`}
           >
             <BiEdit />
           </Link>
           <button
-            onClick={() => showModal(hospitalState[i]._id)}
+            onClick={() => showModal(searchResult[i]._id)}
             className="ms-3 fs-3 text-danger bg-transparent border-0"
           >
             <AiFillDelete />
@@ -132,34 +148,25 @@ const BookDoctorList = () => {
 
   return (
     <>
-      
       <div className="mt-3">
         <div className="header d-flex mb-3 justify-content-between">
           <h2 className="text-header">All Hospitals</h2>
           <Link to={`/admin/hospital`} className="btn btn-primary mb-3">
-            Add New 
+            Add New
           </Link>
         </div>
 
-        <div
-          className="header d-flex mb-3"
-          // style={{ display: "inline-block" }}
-        >
-          <h6 className="text-responsive mt-2">Show</h6>
-          {/* <div className="my-3"> */}
-          <form className="d-flex mb-2" role="search">
-            <h6 className="form-label mt-2" style={{ marginLeft: "55rem" }}>
-              Search:
-            </h6>
-            <input
-              className="form-control"
-              style={{ marginLeft: "5px" }}
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-          </form>
-          {/* </div> */}
+        <div className="header d-flex w-25 float-end  mb-3">
+          <h6 className="form-label mt-2 px-2">Search:</h6>
+          <input
+            className="form-control"
+            onChange={(e) => setSearch(e.target.value)}
+            aria-describedby="basic-addon1"
+            type="search"
+            name="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
         </div>
         <div>
           <Table
